@@ -1,0 +1,102 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Style dla ul z klasą products */
+.products {
+  list-style: none; /* Usunięcie punktów listy */
+  padding: 0; /* Usunięcie domyślnego paddingu */
+  display: flex; /* Umożliwienie elastycznego układu */
+  flex-wrap: wrap; /* Przenoszenie elementów do nowej linii, gdy nie ma miejsca */
+  gap: 20px; /* Odstępy między elementami */
+  justify-content: center; /* Wyśrodkowanie elementów */
+}
+
+/* Style dla li (elementu listy) */
+.products li {
+  flex: 1 1 300px; /* Elastyczna szerokość dla produktów z minimalną szerokością 300px */
+  max-width: 300px; /* Maksymalna szerokość elementu */
+}
+
+/* Style dla artykułu z klasą product */
+.product {
+  border: 1px solid #ddd; /* Szary obramowanie */
+  border-radius: 8px; /* Zaokrąglenie rogów */
+  overflow: hidden; /* Ukrycie nadmiaru treści */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Lekki cień */
+  transition: transform 0.3s; /* Płynna animacja przy najechaniu */
+}
+
+/* Styl na najechanie na produkt */
+.product:hover {
+  transform: scale(1.03); /* Powiększenie produktu przy najechaniu */
+}
+
+/* Style dla obrazka w produkcie */
+.product img {
+  width: 100%; /* Szerokość 100% dla responsywności */
+  height: auto; /* Automatyczna wysokość */
+}
+
+/* Styl dla zawartości produktu */
+.product-content {
+  padding: 16px; /* Padding wewnętrzny */
+}
+
+/* Style dla nagłówka produktu */
+.product-content h3 {
+  font-size: 1.2rem; /* Rozmiar czcionki */
+  margin: 0; /* Usunięcie domyślnego marginesu */
+}
+
+/* Style dla opisu produktu */
+.product-content p {
+  margin: 8px 0; /* Marginesy dla opisów */
+}
+
+/* Styl dla ceny */
+.product-content p:last-child {
+  font-weight: bold; /* Pogrubiona czcionka dla ceny */
+  color: #2c3e50; /* Kolor tekstu dla ceny */
+}
+
+
