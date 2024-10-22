@@ -1,12 +1,20 @@
-# Używaj mniejszego obrazu bazowego OpenJDK
-FROM openjdk:21-jdk-slim
+# Użyj obrazu z Javą i Mavenem
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
-# Ustawienie katalogu roboczego
+# Ustaw katalog roboczy
 WORKDIR /app
 
-# Kopiowanie pliku JAR do kontenera
-COPY target/*.jar /app/app.jar
-EXPOSE 8001
+# Kopiuj pliki pom.xml i src do katalogu roboczego
+COPY pom.xml .
+COPY src ./src
+
+# Buduj aplikację
 RUN mvn clean install -DskipTests
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Stwórz ostateczny obraz z aplikacją
+FROM eclipse-temurin:21-jdk-jammy
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+
+# Uruchom aplikację
+ENTRYPOINT ["java", "-jar", "app.jar"]
