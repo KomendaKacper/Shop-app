@@ -10,7 +10,7 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - .:/app
+      - ./mysql-data:/var/lib/mysql
     networks:
       - mynetwork
     restart: always
