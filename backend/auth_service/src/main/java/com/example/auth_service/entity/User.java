@@ -64,7 +64,7 @@ public class User {
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     @JsonBackReference
     @ToString.Exclude
-    private Roles role;
+    private Role role;
 
     @CreationTimestamp
     @Column(updatable = false)

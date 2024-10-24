@@ -15,13 +15,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Table(name = "roles")
-public class Roles {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Long id;
 
+    @ToString.Exclude
     @Enumerated
     @Column(length = 20, name="role_name")
     private RolesEnum roleName;
@@ -31,7 +32,7 @@ public class Roles {
     @ToString.Exclude
     private Set<User> users = new HashSet<>();
 
-    public Roles(RolesEnum roleName) {
+    public Role(RolesEnum roleName) {
         this.roleName = roleName;
     }
 }

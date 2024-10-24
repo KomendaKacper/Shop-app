@@ -1,5 +1,6 @@
 package com.example.auth_service.security.services;
 
+
 import com.example.auth_service.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
