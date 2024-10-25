@@ -26,9 +26,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.ignoringRequestMatchers("/api/**")); // Wyłączenie CSRF
-
         http.cors(withDefaults());
-
         return http.build();
     }
 
