@@ -6,7 +6,7 @@ import '../index.css'
 export default function Header() {
 
   return (
-    <div id="nav-container" className="mt-[1.5rem] ml-4 mr-4">
+    <div id="nav-container" className="mt-[1.5rem] ml-6 mr-6">
       <nav className="flex justify-between items-center">
         <h1 id="nav-header" className="text-[2rem] m-0 float-left">
           <a className=" no-underline text-white " href="/">
