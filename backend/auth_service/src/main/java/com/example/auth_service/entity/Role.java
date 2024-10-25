@@ -23,7 +23,7 @@ public class Role {
     private Long id;
 
     @ToString.Exclude
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(length = 20, name="role_name")
     private RolesEnum roleName;
 
