@@ -45,28 +45,4 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         return source;
     }
-
-    @Component
-    public class DataLoader implements CommandLineRunner {
-
-        private final ClothesRepository clothesRepository;
-
-        @Autowired
-        public DataLoader(ClothesRepository clothesRepository) {
-            this.clothesRepository = clothesRepository;
-        }
-
-        @Override
-        public void run(String... args) throws Exception {
-            if (!clothesRepository.existsByName("T-shirt")) {
-                Clothes clothes1 = new Clothes("T-shirt", "Stylish t-shirt", "M", "Black", 49.99, "T-shirt", "http://example.com/tshirt.jpg");
-                clothesRepository.save(clothes1);
-            }
-
-            if (!clothesRepository.existsByName("Trousers")) {
-                Clothes clothes2 = new Clothes("Trousers", "Comfortable trousers", "L", "Blue", 89.99, "Trousers", "http://example.com/trousers.jpg");
-                clothesRepository.save(clothes2);
-            }
-        }
-    }
 }
