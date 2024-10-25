@@ -1,5 +1,7 @@
-import './App.css'
+// import './App.css'
 import Clothes from './components/Clothes'
+import Header from './components/Header';
+
 import { useEffect, useState } from 'react'
 
 function App() {
@@ -25,12 +27,12 @@ function App() {
         console.error(error);
       }
     }
-    fetchClothes();
+    //fetchClothes();
   }, []);
 
   return (
     <>
-      <h1>Clothes app</h1>
+      <Header />
       <Clothes clothes={clothes}/>
     </>
   )
