@@ -37,7 +37,7 @@ export default function Login() {
             />
           </div>
           <button className="mt-4 w-full bg-[rgb(78,67,56)] text-white p-2 rounded-md hover:bg-[rgb(95,82,68)]">
-            Zaloguj się
+            Sign In
           </button>
           <p className='mt-4 text-black float-right'><a className='cursor-pointer hover:text-slate-500' onClick={test}>Forgot password?</a></p>
         </div>
