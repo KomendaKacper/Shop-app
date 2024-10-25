@@ -1,5 +1,6 @@
 package com.example.auth_service.controllers;
 
+import com.example.auth_service.dtos.UserDTO;
 import com.example.auth_service.entity.User;
 import com.example.auth_service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,13 @@ public class AdminController {
     }
 
     @PutMapping("/update-role")
-    public ResponseEntity<String> updateRole(@RequestParam Long userId, @RequestBody String roleName) {
+    public ResponseEntity<String> updateRole(@RequestParam Long userId, @RequestParam String roleName) {
         userService.updateUserRole(userId, roleName);
         return ResponseEntity.ok("Successfully updated role");
     }
 
-
+    @GetMapping("/user/{userId}")
+    public UserDTO getUser(@PathVariable Long userId) {
+        return userService.getUserById(userId);
+    }
 }
