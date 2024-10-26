@@ -1,4 +1,4 @@
-package com.example.auth_service.request;
+package com.example.auth_service.requestAndResponse;
 
 import java.util.List;
 

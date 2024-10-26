@@ -1,7 +1,7 @@
 package com.example.auth_service.security.services;
 
 
-import com.example.auth_service.entity.User;
+import com.example.auth_service.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;

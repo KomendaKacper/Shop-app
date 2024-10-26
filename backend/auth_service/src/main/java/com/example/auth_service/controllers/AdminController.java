@@ -1,13 +1,12 @@
 package com.example.auth_service.controllers;
 
 import com.example.auth_service.dtos.UserDTO;
-import com.example.auth_service.entity.User;
+import com.example.auth_service.models.User;
 import com.example.auth_service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 @RestController
