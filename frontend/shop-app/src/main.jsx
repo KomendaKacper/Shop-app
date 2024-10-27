@@ -9,7 +9,7 @@ import './index.css'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     {/* <App /> */}
-    {/* <Login/> */}
-    <Register/>
+    <Login/>
+    {/* <Register/> */}
   </StrictMode>,
 )

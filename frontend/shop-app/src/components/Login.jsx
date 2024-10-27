@@ -1,4 +1,5 @@
 import '../index.css';
+import { FaGoogle } from "react-icons/fa";
 
 export default function Login() {
 
@@ -40,6 +41,12 @@ export default function Login() {
             Sign In
           </button>
           <p className='mt-4 text-black float-right'><a className='cursor-pointer hover:text-slate-500' onClick={test}>Forgot password?</a></p>
+          <p className="mt-4 text-black">
+            Sign in with: 
+          </p>
+          <div id="social-media-icons" className="flex float-left">
+            <FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" />
+          </div>
         </div>
       </div>
     </div>
