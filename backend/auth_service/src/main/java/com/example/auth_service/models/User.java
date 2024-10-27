@@ -1,4 +1,4 @@
-package com.example.auth_service.entity;
+package com.example.auth_service.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -53,12 +50,12 @@ public class User {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
 
-    private LocalDate credentialsExpiryDate;
-    private LocalDate accountExpiryDate;
+    private LocalDate credentialsExpiryDate = LocalDate.now().plusYears(5);
+    private LocalDate accountExpiryDate = LocalDate.now().plusYears(5);
 
     private String twoFactorSecret;
     private boolean isTwoFactorEnabled = false;
-    private String signUpMethod;
+    private String signUpMethod = "email";
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")

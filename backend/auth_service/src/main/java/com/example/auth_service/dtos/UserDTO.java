@@ -1,6 +1,6 @@
 package com.example.auth_service.dtos;
 
-import com.example.auth_service.entity.Role;
+import com.example.auth_service.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
