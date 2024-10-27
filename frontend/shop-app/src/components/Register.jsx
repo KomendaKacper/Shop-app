@@ -1,4 +1,6 @@
 import "../index.css";
+import { FaGoogle } from "react-icons/fa";
+
 
 export default function Register() {
 
@@ -8,14 +10,14 @@ export default function Register() {
 
   return (
     <div id="container" className="flex items-center justify-center h-screen">
-      <div className="w-2/6 h-3/4 bg-slate-100 flex flex-col justify-center items-center rounded-3xl p-6 shadow-2xl border-2 border-slate-100">
-        <h1 className="mt-3 text-3xl text-black">Register</h1>
+      <form className="w-2/6 h-3/4 bg-slate-100 flex flex-col justify-center items-center rounded-3xl p-4 shadow-2xl border-2 border-slate-100">
+        <h1 className="text-3xl text-black">Register</h1>
 
         <div id="form-input" className="w-full">
           {/* LOGO */}
 
           {/* Email */}
-          <div className="mb-5 mt-5 ">
+          <div className=" ">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-black"
@@ -31,7 +33,7 @@ export default function Register() {
           </div>
 
           {/* Login */}
-          <div className="mb-5 mt-5 ">
+          <div className="mb-3 mt-3 ">
             <label
               htmlFor="username"
               className="block text-sm font-medium text-black"
@@ -47,7 +49,7 @@ export default function Register() {
           </div>
 
           {/* Password */}
-          <div className="mb-3 mt-5 ">
+          <div className="mb-3 mt-3 ">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-black"
@@ -64,13 +66,14 @@ export default function Register() {
           <button className="mt-4 w-full bg-[rgb(78,67,56)] text-white p-2 rounded-md hover:bg-[rgb(95,82,68)]">
             Sign Up
           </button>
-          <p className="mt-4 text-black float-right">
-            <a className="cursor-pointer hover:text-slate-500" onClick={test}>
-              Forgot password?
-            </a>
+          <p className="mt-4 text-black">
+            Sign up with: 
           </p>
+          <div id="social-media-icons" className="flex float-left">
+            <FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" />
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
