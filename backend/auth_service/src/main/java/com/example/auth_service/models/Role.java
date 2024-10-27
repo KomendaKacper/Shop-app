@@ -1,4 +1,4 @@
-package com.example.auth_service.entity;
+package com.example.auth_service.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

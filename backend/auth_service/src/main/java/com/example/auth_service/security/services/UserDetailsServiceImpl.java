@@ -1,6 +1,6 @@
 package com.example.auth_service.security.services;
 
-import com.example.auth_service.entity.User;
+import com.example.auth_service.models.User;
 import com.example.auth_service.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
