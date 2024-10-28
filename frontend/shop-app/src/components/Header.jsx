@@ -1,6 +1,7 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { IoHome } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { Link } from "react-router-dom";
 import "../index.css";
 
 export default function Header() {
@@ -17,13 +18,13 @@ export default function Header() {
             id="nav-el"
             className=" ml-[20px] mr-[20px] cursor-pointer float-right hover:text-[rgb(183,164,143)] hover:scale-150"
           >
-            <IoHome size={25} />
+            <a href="/home"><IoHome size={25} /></a>
           </li>
           <li
             id="nav-el"
             className="ml-[20px] mr-[20px] cursor-pointer float-right hover:text-[rgb(183,164,143)] hover:scale-150"
           >
-            <CgProfile size={25} />
+            <a href="/login"><CgProfile size={25} /></a>
           </li>
           <li
             id="nav-el"

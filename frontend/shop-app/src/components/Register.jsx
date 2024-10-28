@@ -1,5 +1,7 @@
 import "../index.css";
 import { FaGoogle } from "react-icons/fa";
+import { IoMdArrowBack } from "react-icons/io";
+
 
 
 export default function Register() {
@@ -10,7 +12,10 @@ export default function Register() {
 
   return (
     <div id="container" className="flex items-center justify-center h-screen">
-      <form className="w-2/6 h-3/4 bg-slate-100 flex flex-col justify-center items-center rounded-3xl p-4 shadow-2xl border-2 border-slate-100">
+      <form className="w-2/6 h-3/4 bg-slate-100 flex flex-col justify-center items-center rounded-3xl p-4 shadow-2xl border-2 border-slate-100 relative">
+        <a href="/login">
+          <IoMdArrowBack className="text-black text-2xl absolute top-4 left-4 cursor-pointer" />
+        </a>
         <h1 className="text-3xl text-black">Register</h1>
 
         <div id="form-input" className="w-full">
