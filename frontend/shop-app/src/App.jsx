@@ -1,6 +1,6 @@
 // import './App.css'
 import Clothes from './components/Clothes'
-import Header from './components/Header';
+import Navbar from './components/Navbar';
 
 import { useEffect, useState } from 'react'
 
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Navbar />
       <Clothes clothes={clothes}/>
     </>
   )
