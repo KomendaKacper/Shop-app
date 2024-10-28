@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import "../index.css";
 
-export default function Header() {
+export default function Navbar() {
   return (
     <div id="nav-container" className="mt-[1.5rem] ml-6 mr-6 ">
       <nav className="flex justify-between items-center">
