@@ -1,4 +1,4 @@
-import "../index.css";
+// import "../index.css";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";

@@ -7,15 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="catalog_service" />
         <module name="auth_service" />
+        <module name="api_gateway" />
+        <module name="orders_service" />
+        <module name="naming_server" />
+        <module name="catalog_service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api_gateway" options="-parameters" />
       <module name="auth_service" options="-parameters" />
       <module name="catalog_service" options="-parameters" />
+      <module name="naming_server" options="-parameters" />
+      <module name="orders_service" options="-parameters" />
     </option>
   </component>
 </project>

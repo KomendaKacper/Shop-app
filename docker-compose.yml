@@ -5,7 +5,7 @@ services:
     image: eureka-server:latest
     container_name: naming_server
     build:
-      context: ./naming_server
+      context: ./backend/naming_server
     ports:
       - "8761:8761"
     networks:
@@ -36,7 +36,7 @@ services:
   catalog-service:
     container_name: catalog-service
     build:
-      context: ./catalog_service
+      context: ./backend/catalog_service
     ports:
       - "8001:8001"
     depends_on:
@@ -57,7 +57,7 @@ services:
   auth-service:
     container_name: auth-service
     build:
-      context: ./auth_service
+      context: ./backend/auth_service
     ports:
       - "8100:8100"
     depends_on:
@@ -70,9 +70,9 @@ services:
     restart: always
 
   api-gateway:
-    container_name: api_gateway
+    container_name: api-gateway
     build:
-      context: ./api_gateway
+      context: ./backend/api_gateway
     ports:
       - "8765:8765"
     depends_on:
@@ -91,9 +91,13 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./frontend
+      context: ./frontend/shop-app
     ports:
-      - "3000:3000"
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+    stdin_open: true
+    tty: true
     networks:
       - mynetwork
     restart: always

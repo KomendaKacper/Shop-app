@@ -7,6 +7,9 @@
         <option value="$PROJECT_DIR$/online-store/pom.xml" />
         <option value="$PROJECT_DIR$/auth_service/pom.xml" />
         <option value="$PROJECT_DIR$/Catalog_service/pom.xml" />
+        <option value="$PROJECT_DIR$/api_gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/naming_server/pom.xml" />
+        <option value="$PROJECT_DIR$/orders_service/pom.xml" />
       </list>
     </option>
   </component>
