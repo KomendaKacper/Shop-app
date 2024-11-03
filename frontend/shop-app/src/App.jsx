@@ -1,4 +1,3 @@
-// import './App.css'
 import Clothes from './components/Clothes'
 import Navbar from './components/Navbar';
 
