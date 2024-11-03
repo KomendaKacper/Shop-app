@@ -1,7 +1,6 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { IoHome } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
 import "../index.css";
 
 export default function Navbar() {
