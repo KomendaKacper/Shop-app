@@ -7,3 +7,6 @@
 /dataSources/
 /dataSources.local.xml
 /node_modules
+backend\mysql-data
+backend/mysql-data/
+\backend\mysql-data
