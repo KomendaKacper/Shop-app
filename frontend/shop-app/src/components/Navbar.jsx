@@ -30,6 +30,7 @@ export default function Navbar() {
             className="ml-[20px] mr-[20px] cursor-pointer float-right hover:text-[rgb(183,164,143)] hover:scale-150"
           >
             <FaCartShopping size={25} />
+            <p>Cart (0)</p>
           </li>
         </ul>
       </nav>
