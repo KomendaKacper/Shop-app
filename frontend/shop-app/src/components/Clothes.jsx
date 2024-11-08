@@ -15,7 +15,6 @@ export default function Clothes({ clothes }) {
         }
         const clothes = await response.json()
         setLoadedClothes(clothes);
-        console.log(clothes)
       }catch(error){
         setError(error)
         console.log(error)
