@@ -6,7 +6,6 @@ export default function ClothesItem({ product }) {
   
   function handleAddItemToCart() {
     cartCtx.addItem(product);
-    console.log("Added item to cart");
   }
 
   return(
