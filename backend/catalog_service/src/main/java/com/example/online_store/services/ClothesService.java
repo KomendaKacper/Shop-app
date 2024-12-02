@@ -7,6 +7,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,4 +48,14 @@ public class ClothesService {
     public List<Clothes> filterByCategory(String category){
         return clothesRepository.findByCategory(category);
     }
+
+    public byte[] getImage(String filePath) throws IOException {
+        Path path = Path.of(filePath);
+        if (Files.exists(path)) {
+            return Files.readAllBytes(path);
+        } else {
+            throw new IOException("Image not found at path: " + filePath);
+        }
+    }
+
 }
