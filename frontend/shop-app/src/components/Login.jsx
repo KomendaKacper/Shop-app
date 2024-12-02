@@ -1,7 +1,6 @@
 // import "../index.css";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 export default function Login() {
   function test() {
