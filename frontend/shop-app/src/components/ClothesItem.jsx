@@ -1,7 +1,8 @@
-import { useContext } from "react";
-import CartContext from "../store/CartContext.jsx";
-
 export default function ClothesItem({ product }) {
+  const backendUrl = "http://localhost:8001/api/catalog/"; // Adres backendu do folderu obrazów
+
+  return (
+    <li className="w-[20rem] bg-[rgb(176,159,139)] rounded-2xl overflow-hidden text-center shadow-lg">
       <article className="h-full flex flex-col justify-between">
         <img
           src={`${backendUrl}${product.imageUrl}`} // Dynamiczny URL obrazu
@@ -16,6 +17,9 @@ export default function ClothesItem({ product }) {
           <p className="mb-2 mt-2">{product.description}</p>
         </div>
         <p className="mb-6">
+          <button className="bg-[rgb(97,87,74)] hover:bg-[rgb(82,74,63)] cursor-pointer rounded-md h-8 w-[8rem]">
+            Add to Cart
+          </button>
         </p>
       </article>
     </li>
