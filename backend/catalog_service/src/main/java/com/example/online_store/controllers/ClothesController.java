@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,9 +53,10 @@ public class ClothesController {
     }
 
     @GetMapping("/clothesImages/{imageName}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String imageName) {
+    public ResponseEntity<byte[]> getImage(@PathVariable String imageName) throws Exception{
         try {
-            Path imagePath = Path.of("src/main/resources/static/clothesImages/" + imageName);
+            Path imagePath = Paths.get(getClass().getClassLoader().getResource("static/clothesImages/" + imageName).toURI());
+            System.out.println("Attempting to read file from: " + imagePath.toAbsolutePath());
             byte[] imageBytes = Files.readAllBytes(imagePath);
 
             HttpHeaders headers = new HttpHeaders();
@@ -62,7 +64,9 @@ public class ClothesController {
 
             return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 }
