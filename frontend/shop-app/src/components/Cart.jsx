@@ -14,14 +14,16 @@ export default function Cart() {
   );
   function handleCloseCart(){
     userProgressCtx.hideCart();
+    console.log('Cart closed');
   }
 
   function handleGoToCheckout(){
     userProgressCtx.showCheckout();
+    console.log('Go to checkout');
   }
 
   return (
-    <Modal open={userProgressCtx.progress === "cart"}>
+    <Modal open={userProgressCtx.progress === "cart"} onClose={userProgressCtx.progress === "cart" ? handleCloseCart : null}>
       <h2 className="text-2xl m-4">Your Cart</h2>
       <ul className="list-none m-2 p-0">
         {cartCtx.items.map((item) => (
