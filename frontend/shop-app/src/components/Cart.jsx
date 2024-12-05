@@ -41,11 +41,11 @@ export default function Cart() {
         2
       )}`}</p>
       <p className="flex justify-end gap-4 m-4 ">
-        <button onClick={handleCloseCart} className="rounded-xl mr-2 ml-1 text-m py-2 px-4 ">
+        <button onClick={handleCloseCart} className="rounded-xl mr-2 ml-1 text-m py-2 px-4  hover:bg-[#33312e57]">
           Close
         </button>
         {cartCtx.items.length > 0 && (
-          <button onClick={handleGoToCheckout} className="rounded-xl ml-2 mr-1 bg-[#FFBF00] text-m py-2 px-4">
+          <button onClick={handleGoToCheckout} className="rounded-xl ml-2 mr-1 bg-[#FFBF00] hover:bg-[#ffab04] text-m py-2 px-4">
             Go to Checkout
           </button>
         )}
