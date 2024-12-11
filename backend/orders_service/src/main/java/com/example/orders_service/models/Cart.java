@@ -20,12 +20,9 @@ public class Cart {
     @Column(name = "cart_id")
     private Long cartId;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private Long userId;
+    @Column(name = "user_id")
+    private Long userId; // tylko ID użytkownika
 
     @Column(name = "created_at")
     private LocalDate createdAt = LocalDate.now();
-
-
 }

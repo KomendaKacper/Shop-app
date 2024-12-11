@@ -128,7 +128,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         String jwtToken = jwtUtils.generateTokenFromUsername(userDetails);
 
         // Redirect to the frontend with the JWT token
-        String targetUrl = UriComponentsBuilder.fromUriString(frontendUrl + "/oauth2/redirect")
+        String targetUrl = UriComponentsBuilder.fromUriString(frontendUrl + "/home")
                 .queryParam("token", jwtToken)
                 .build().toUriString();
         this.setDefaultTargetUrl(targetUrl);
