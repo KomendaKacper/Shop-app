@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "carts")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
 
     @Id
@@ -20,8 +21,7 @@ public class Cart {
     private Long cartId;
 
     @OneToOne
-    @PrimaryKeyJoinColumn()
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private Long userId;
 
     @Column(name = "created_at")

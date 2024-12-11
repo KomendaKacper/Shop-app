@@ -29,10 +29,10 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - mysql-config:/etc/mysql/conf.d
     networks:
       - mynetwork
     restart: always
+
 
   catalog-service:
     container_name: catalog-service
@@ -109,6 +109,3 @@ networks:
 
 volumes:
   mysql-data:
-    driver: local
-  mysql-config:
-    driver: local
