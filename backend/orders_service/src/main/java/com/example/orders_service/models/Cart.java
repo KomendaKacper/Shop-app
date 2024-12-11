@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "carts")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
 
     @Id
@@ -19,12 +20,9 @@ public class Cart {
     @Column(name = "cart_id")
     private Long cartId;
 
-    @OneToOne
     @Column(name = "user_id")
-    private Long userId;
+    private Long userId; // tylko ID użytkownika
 
     @Column(name = "created_at")
     private LocalDate createdAt = LocalDate.now();
-
-
 }
