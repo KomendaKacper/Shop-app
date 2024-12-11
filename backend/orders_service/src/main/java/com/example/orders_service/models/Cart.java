@@ -20,6 +20,7 @@ public class Cart {
     private Long cartId;
 
     @OneToOne
+    @PrimaryKeyJoinColumn()
     @Column(name = "user_id")
     private Long userId;
 
