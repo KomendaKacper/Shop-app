@@ -30,13 +30,10 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.cors(withDefaults())
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/api/auth/public/**"))
+                        .ignoringRequestMatchers("/**"))
                 .authorizeHttpRequests((requests) ->
                         requests
-                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/auth/public/**").permitAll()
-                                .requestMatchers("/api/csrf-token").permitAll()
-                                .requestMatchers("/oauth2/**").permitAll()
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
