@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../index.css";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
@@ -11,6 +12,7 @@ export default function Register() {
     password: "",
   });
   const [error, setError] = useState(null);
+  const navigateToLogin = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +22,8 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log(formData);
     e.preventDefault();
     const validationError = validationRegistration(formData);
     if (validationError) {
@@ -30,6 +33,45 @@ export default function Register() {
     }
     setError(null);
     console.log("Ready to submit", formData);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8100/api/auth/public/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Registration successfull", data);
+        navigateToLogin("/login");
+      } else {
+        if (response.status === 409) {
+          setError(
+            "User already exists. Please use a different email or username."
+          );
+          return;
+        }
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error("Server error:", errorDetails);
+          setError(errorDetails.message || "An unknown error occurred.");
+          return;
+        }
+      }
+    } catch (error) {
+      console.error("Error in login in", error);
+      setError("Error During logining in");
+    }
   };
 
   const isError = error === null ? false : true;
