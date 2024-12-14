@@ -1,11 +1,58 @@
 // import "../index.css";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaPassport } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
+import { useState } from "react";
+import { validationRegistration } from "../utils/validation";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  function test() {
-    console.log("test");
-  }
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const navigateToHome = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleLogin = async (e) => {
+
+    try {
+      const response = await fetch(
+        "http://localhost:8100/api/auth/public/signin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            password: formData.password,
+          }),
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful", data);
+        //Token
+        const token = localStorage.setItem('token', data.token)
+        navigateToHome("/home");
+      } else {
+        const error = await response.json();
+        setError(error.message || "Login failed");
+      }
+    } catch(error){
+      console.error("Error in login in", error);
+      setError("Error During logining in");
+    }
+  };
 
   return (
     <div id="container" className="flex items-center justify-center h-screen">
@@ -26,8 +73,11 @@ export default function Login() {
             <input
               type="text"
               id="username"
+              name="username"
+              value={formData.username}
               className="mt-1 block w-full  p-2 rounded-md border text-black bg-slate-100 border-black focus:outline-none focus:ring focus:ring-slate-200"
-              placeholder="Wpisz login"
+              placeholder="Enter login"
+              onChange={handleInputChange}
             />
           </div>
           <div className="mb-3 mt-5 ">
@@ -40,22 +90,31 @@ export default function Login() {
             <input
               type="password"
               id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
               className="mt-1 block w-full p-2 border-black rounded-md border bg-slate-100 text-black  focus:outline-none focus:ring focus:ring-slate-200"
-              placeholder="Wpisz hasło"
+              placeholder="Enter password"
             />
             <p className="mt-1 text-black float-right text-sm">
-              <a className="cursor-pointer hover:text-slate-500" onClick={test}>
+              <a className="cursor-pointer hover:text-slate-500">
                 Forgot password?
               </a>
             </p>
           </div>
-          <button className="mt-4 w-full bg-[rgb(78,67,56)] text-white p-2 rounded-md hover:bg-[rgb(95,82,68)]">
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <button
+            onClick={handleLogin}
+            className="mt-4 w-full bg-[rgb(78,67,56)] text-white p-2 rounded-md hover:bg-[rgb(95,82,68)]"
+          >
             Sign In
           </button>
-          <p className="mt-4 text-black float-right hover:text-slate-600 cursor-pointer"><a href="/register">Don't have an account? Sign up now!</a></p>
+          <p className="mt-4 text-black float-right hover:text-slate-600 cursor-pointer">
+            <a href="/register">Sign up now!</a>
+          </p>
           <p className="mt-4 text-black">Sign in with:</p>
           <div id="social-media-icons" className="flex float-left">
-            <FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" />
+            <a href="http://localhost:8100/oauth2/authorization/google" className=''><FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" /></a>
           </div>
         </div>
       </div>
