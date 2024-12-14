@@ -40,7 +40,6 @@ export default function Login() {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Login successful", data);
         //Token
         const token = localStorage.setItem('token', data.token)
         navigateToHome("/home");
