@@ -32,7 +32,6 @@ export default function Register() {
       return;
     }
     setError(null);
-    console.log("Ready to submit", formData);
 
     try {
       const response = await fetch(
@@ -52,7 +51,6 @@ export default function Register() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Registration successfull", data);
         navigateToLogin("/login");
       } else {
         if (response.status === 409) {
