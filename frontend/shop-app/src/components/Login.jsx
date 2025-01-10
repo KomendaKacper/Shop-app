@@ -1,9 +1,9 @@
 // import "../index.css";
 import { FaGoogle, FaPassport } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
-import { useState } from "react";
-import { validationRegistration } from "../utils/validation";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../store/AuthContext";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -12,6 +12,7 @@ export default function Login() {
     password: "",
   });
 
+  const authCtx = useContext(AuthContext);
   const navigateToHome = useNavigate();
 
   const handleInputChange = (e) => {
@@ -41,8 +42,10 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         //Token
+        authCtx.login(data.token)
         const token = localStorage.setItem('token', data.token)
         navigateToHome("/home");
+        console.log('Logged in')
       } else {
         const error = await response.json();
         setError(error.message || "Login failed");
