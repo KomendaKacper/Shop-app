@@ -5,13 +5,15 @@ import "../index.css";
 import { useContext } from "react";
 import CartContext from "../store/CartContext";
 import UserProgressContext from "../store/UserProgressContext";
-import { IoIosLogOut } from "react-icons/io"; //LogOut icon
+import { IoIosLogOut } from "react-icons/io"; 
 import  AuthContext  from "../store/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
   const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();  
 
   const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
     return totalNumberOfItems + item.quantity;
@@ -20,6 +22,16 @@ export default function Navbar() {
   function handleShowCart() {
     userProgressCtx.showCart();
   }
+
+  const isLoggedIn = !!authCtx.token && authCtx.roles.length > 0;
+
+  const handleAuthAction = () => {
+    if (isLoggedIn) {
+      authCtx.logout(); 
+    } else {
+      navigate("/login");  
+    }
+  };
 
   return (
     <div id="nav-container" className="p-5 ml-6 mr-6 ">
@@ -45,16 +57,13 @@ export default function Navbar() {
             id="nav-el"
             className="ml-[20px] mr-[20px] cursor-pointer float-right hover:text-[rgb(183,164,143)] hover:scale-150"
           >
-            {console.log(authCtx.isLoggedIn)}
-            {authCtx.isLoggedIn ? (
-              <a>
-                <IoIosLogOut size={25} onClick={authCtx.logout}/>
-              </a>
-            ) : (
-              <a>
-                <CgProfile size={25} onClick={authCtx.login}/>
-              </a>
-            )}
+            <a>
+              {isLoggedIn ? (
+                <IoIosLogOut size={25} onClick={handleAuthAction} />
+              ) : (
+                <CgProfile size={25} onClick={handleAuthAction} />
+              )}
+            </a>
           </li>
           <li
             id="nav-el"

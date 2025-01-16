@@ -24,7 +24,7 @@ export default function Login() {
   };
 
   const handleLogin = async (e) => {
-
+    e.preventDefault();
     try {
       const response = await fetch(
         "http://localhost:8100/api/auth/public/signin",
@@ -42,15 +42,24 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         //Token
-        authCtx.login(data.token)
-        const token = localStorage.setItem('token', data.token)
-        navigateToHome("/home");
-        console.log('Logged in')
+        if (data.jwtToken && data.roles) {
+          authCtx.login(data.jwtToken, data.roles);
+          localStorage.setItem("token", data.jwtToken);
+          localStorage.setItem("roles", JSON.stringify(data.roles));
+
+          if (data.roles.includes("ROLE_ADMIN")) {
+            navigateToHome("/dashboard");
+          } else {
+            navigateToHome("/home");
+          }
+        } else {
+          setError("Invalid response from server");
+        }
       } else {
         const error = await response.json();
         setError(error.message || "Login failed");
       }
-    } catch(error){
+    } catch (error) {
       console.error("Error in login in", error);
       setError("Error During logining in");
     }
@@ -116,7 +125,12 @@ export default function Login() {
           </p>
           <p className="mt-4 text-black">Sign in with:</p>
           <div id="social-media-icons" className="flex float-left">
-            <a href="http://localhost:8100/oauth2/authorization/google" className=''><FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" /></a>
+            <a
+              href="http://localhost:8100/oauth2/authorization/google"
+              className=""
+            >
+              <FaGoogle className="mt-2 text-2xl text-slate-600 cursor-pointer float-left" />
+            </a>
           </div>
         </div>
       </div>
