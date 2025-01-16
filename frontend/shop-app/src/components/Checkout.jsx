@@ -97,6 +97,8 @@ export default function Checkout() {
               </button>
               <button className="rounded-xl ml-2  bg-[#FFBF00] text-m py-1 px-4 cursor-pointer hover:bg-[#ffab04] ">
                 Submit purchase
+                {/* Podac trzeba cene walute i email */}
+                {/* Chcemy zeby były zamowinione czyli chce wiedziec co ktos zamowił czyli dac to na backend */}
               </button>
             </p>
           </div>
