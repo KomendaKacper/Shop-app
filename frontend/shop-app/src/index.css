@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html {
   --main-color: rgba(255, 255, 255, 0.87);
-  --background-color: rgb(222, 200, 174);
+  /* --background-color: rgb(222, 200, 174); */
+  /* background-image: url('./assets/pastel2.png'); */
+  background-image: url('./assets/chaotic1.png');
+  /* background-image: url('./assets/sukna1.png'); */
+  background-repeat: no-repeat;
+  background-size: cover;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
