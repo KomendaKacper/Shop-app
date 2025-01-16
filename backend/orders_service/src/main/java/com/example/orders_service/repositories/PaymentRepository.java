@@ -1,12 +1,11 @@
 package com.example.orders_service.repositories;
 
-import com.example.orders_service.models.Cart;
+import com.example.orders_service.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
-public interface CartRepository extends JpaRepository<Cart, Long> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
+    Payment findByUserEmail(String userEmail);
 }

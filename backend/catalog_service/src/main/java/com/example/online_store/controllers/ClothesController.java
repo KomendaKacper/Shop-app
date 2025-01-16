@@ -69,4 +69,10 @@ public class ClothesController {
         }
     }
 
+    @PostMapping("/filter-by-names")
+    public ResponseEntity<List<Clothes>> filterByNames(@RequestBody List<String> names) {
+        List<Clothes> clothes = clothesService.findByNames(names);
+        return new ResponseEntity<>(clothes, HttpStatus.OK);
+    }
+
 }

@@ -1,16 +1,7 @@
-# Default ignored files
 /shelf/
 /.idea/workspace.xml
-# Editor-based HTTP Client requests
 /httpRequests/
-# Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
 /node_modules
-<<<<<<< HEAD
-/backend/mysql-data/*
-=======
-backend\mysql-data
-backend/mysql-data/
-\backend\mysql-data
->>>>>>> b6c6770b43874aded8b7066fb0eb7ec3ca6c5f80
+/backend/secrets.properties
