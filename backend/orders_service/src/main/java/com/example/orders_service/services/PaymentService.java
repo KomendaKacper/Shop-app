@@ -1,5 +1,6 @@
 package com.example.orders_service.services;
 
+import com.example.orders_service.dto.ClothesDTO;
 import com.example.orders_service.entity.Payment;
 import com.example.orders_service.repositories.PaymentRepository;
 import com.example.orders_service.requestmodels.PaymentInfoRequest;
@@ -12,22 +13,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
 public class PaymentService {
 
-    private PaymentRepository paymentRepository;
+    private final PaymentRepository paymentRepository;
+
+    private final RestTemplate restTemplate;
+
+    @Value("${catalog.service.url}")
+    private String catalogServiceUrl;
+
+    @Value("${stripe.key.secret}") String secretKey;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, @Value("${stripe.key.secret}") String secretKey) {
+    public PaymentService(PaymentRepository paymentRepository,
+                          RestTemplate restTemplate) {
         this.paymentRepository = paymentRepository;
         Stripe.apiKey = secretKey;
+        this.restTemplate = restTemplate;
     }
 
     public PaymentIntent createPaymentIntent(PaymentInfoRequest paymentInfoRequest) throws StripeException {
@@ -51,6 +59,17 @@ public class PaymentService {
         payment.setAmount(00.0);
         paymentRepository.save(payment);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public List<ClothesDTO> fetchClothesByNames(List<String> names) {
+        String url = catalogServiceUrl + "/api/catalog/filter-by-names";
+        ResponseEntity<ClothesDTO[]> response = restTemplate.postForEntity(url, names, ClothesDTO[].class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return Arrays.asList(response.getBody());
+        } else {
+            throw new RuntimeException("Failed to fetch clothes from catalog_service");
+        }
     }
 
 }
