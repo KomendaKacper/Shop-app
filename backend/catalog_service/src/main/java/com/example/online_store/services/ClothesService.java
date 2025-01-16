@@ -58,4 +58,9 @@ public class ClothesService {
         }
     }
 
+    public List<Clothes> findByNames(List<String> names) {
+        return clothesRepository.findByNameIn(names);
+    }
+
+
 }
