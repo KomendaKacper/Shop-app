@@ -18,9 +18,10 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
+      - name: Build orders_service
         env:
           STRIPE_KEY_SECRET: ${{ secrets.STRIPE_KEY_SECRET }}
         run: |
+          cd orders_service
           mvn clean install
-          echo "Stripe key is $STRIPE_KEY_SECRET" # Debug (usuń w produkcji)
+          echo "Stripe key is $STRIPE_KEY_SECRET"
