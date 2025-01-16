@@ -38,6 +38,7 @@ export default function ClothesItem({ product }) {
               className="w-full h-80 object-cover backface-hidden"
             />
             <div className="back bg-[rgb(176,159,139)] flex flex-col items-center justify-center backface-hidden rotate-y-180">
+              <p className="mb-2 mt-2 block"><b><i>Product name:</i></b> {product.name}</p>
               <p className="mb-2 mt-2 block"><b><i>Description:</i></b> {product.description}</p>
               <p className="mb-2 mt-2 block"><b><i>Size:</i></b> {product.size}</p>
               <p className="mb-2 mt-2 block"><b><i>Color:</i></b> {product.color}</p>
