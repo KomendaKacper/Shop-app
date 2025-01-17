@@ -20,7 +20,6 @@ export function AuthContextProvider({ children }) {
     const storedToken = localStorage.getItem("token");
     let storedRoles = [];
   
-    // Dodanie zabezpieczenia przed błędami w przypadku niepoprawnego formatu JSON
     try {
       const storedRolesString = localStorage.getItem("roles");
       if (storedRolesString) {

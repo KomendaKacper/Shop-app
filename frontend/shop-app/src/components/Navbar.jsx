@@ -1,7 +1,7 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { IoHome } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import "../index.css";
+// import "../index.css";
 import { useContext } from "react";
 import CartContext from "../store/CartContext";
 import UserProgressContext from "../store/UserProgressContext";
