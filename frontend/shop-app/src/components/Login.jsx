@@ -1,4 +1,4 @@
-// import "../index.css";
+import "../index.css";
 import { FaGoogle, FaPassport } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
 import { useState, useContext } from "react";
