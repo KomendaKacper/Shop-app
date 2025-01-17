@@ -5,12 +5,11 @@ An e-commerce web application designed to provide a seamless shopping experience
 - **Backend**: Handled by [KomendaKacper](https://github.com/KomendaKacper)
 - **Frontend**: Handled by [Szymi611](https://github.com/Szymi611)
 ---
-
-![image](https://github.com/user-attachments/assets/2fb15457-4abd-40a6-9aff-1600b3fd630c)
+![image](https://github.com/user-attachments/assets/5812c5d7-9269-4789-9311-221e27adb391)
 ---
-![image](https://github.com/user-attachments/assets/5e255f49-b9e7-495c-b5dc-d7a908774e19)
+![image](https://github.com/user-attachments/assets/7ee13513-70ce-447f-b699-517699b23bfd)
 ---
-![image](https://github.com/user-attachments/assets/c33aaa4d-04e0-472b-878a-e53cba5b0cfd)
+![image](https://github.com/user-attachments/assets/bf6e6a68-93c1-463b-9858-250c9533ea89)
 ---
 
 
