@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import ProtectedRoutes from "./components/Admin/ProtectedRoutes.jsx";
 import { AuthContextProvider } from "./store/AuthContext";
+import AllUsers from "./components/Admin/AllUsers.jsx";
 
 const Root = () => {
   return (
@@ -22,6 +23,14 @@ const Root = () => {
             element={
               <ProtectedRoutes requiredRole="ROLE_ADMIN">
                 <AdminDashboard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoutes requiredRole="ROLE_ADMIN">
+                <AllUsers />
               </ProtectedRoutes>
             }
           />
