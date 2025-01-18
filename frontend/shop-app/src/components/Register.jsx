@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../index.css";
+// import "../index.css";
 import { FaGoogle } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
 import { validationRegistration } from "../utils/validation";
