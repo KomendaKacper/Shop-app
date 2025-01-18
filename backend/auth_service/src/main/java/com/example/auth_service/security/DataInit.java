@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class DataInit {
@@ -32,8 +34,26 @@ public class DataInit {
             Role userRole = initRole(RolesEnum.ROLE_USER);
             Role adminRole = initRole(RolesEnum.ROLE_ADMIN);
 
-            initUser("user1", "user1@example.com", "password1", userRole, false);
-            initUser("admin", "admin@example.com", "adminPass", adminRole, true);
+            List<UserData> users = Arrays.asList(
+                    new UserData("Alice", "alice@example.com", "password1", userRole, true),
+                    new UserData("Bob", "bob@example.com", "password2", userRole, true),
+                    new UserData("Charlie", "charlie@example.com", "password3", userRole, true),
+                    new UserData("Diana", "diana@example.com", "password4", userRole, true),
+                    new UserData("Eve", "eve@example.com", "password5", userRole, true),
+                    new UserData("Frank", "frank@example.com", "password6", userRole, true),
+                    new UserData("Grace", "grace@example.com", "password7", userRole, true),
+                    new UserData("Hank", "hank@example.com", "password8", userRole, true),
+                    new UserData("Ivy", "ivy@example.com", "password9", adminRole, true),
+                    new UserData("Jack", "jack@example.com", "password10", adminRole, true)
+            );
+
+            users.forEach(user -> initUser(
+                    user.username,
+                    user.email,
+                    user.password,
+                    user.role,
+                    user.accountNonLocked
+            ));
         };
     }
 
@@ -55,6 +75,22 @@ public class DataInit {
             user.setSignUpMethod("email");
             user.setRole(role);
             userRepository.save(user);
+        }
+    }
+
+    private static class UserData {
+        String username;
+        String email;
+        String password;
+        Role role;
+        boolean accountNonLocked;
+
+        public UserData(String username, String email, String password, Role role, boolean accountNonLocked) {
+            this.username = username;
+            this.email = email;
+            this.password = password;
+            this.role = role;
+            this.accountNonLocked = accountNonLocked;
         }
     }
 }
