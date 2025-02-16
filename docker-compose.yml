@@ -1,9 +1,9 @@
-version: '4.35.1'
+version: '3.8'
 
 services:
   eureka-server:
     image: eureka-server:latest
-    container_name: naming_server
+    container_name: eureka-server
     build:
       context: ./backend/naming_server
     ports:
@@ -11,10 +11,10 @@ services:
     networks:
       - mynetwork
     environment:
-      - spring.application.name=naming_server
+      - spring.application.name=naming-server
       - server.port=8761
-      - eureka.client.registerWithEureka=false
-      - eureka.client.fetchRegistry=false
+      - eureka.client.register-with-eureka=false
+      - eureka.client.fetch-registry=false
     restart: always
 
   mysql:
@@ -33,7 +33,6 @@ services:
       - mynetwork
     restart: always
 
-
   catalog-service:
     container_name: catalog-service
     build:
@@ -50,6 +49,21 @@ services:
       - spring.datasource.username=springstudent
       - spring.datasource.password=springstudent
       - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    networks:
+      - mynetwork
+    restart: always
+
+  orders-service:
+    container_name: orders-service
+    build:
+      context: ./backend/orders_service
+    ports:
+      - "8200:8200"
+    depends_on:
+      - eureka-server
+    environment:
+      - spring.application.name=orders-service
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     networks:
       - mynetwork
