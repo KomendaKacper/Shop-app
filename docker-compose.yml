@@ -65,6 +65,7 @@ services:
     environment:
       - spring.application.name=orders-service
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     networks:
       - mynetwork
     restart: always
@@ -80,6 +81,9 @@ services:
     environment:
       - spring.application.name=auth-service
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
     networks:
       - mynetwork
     restart: always

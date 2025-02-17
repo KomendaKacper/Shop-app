@@ -7,6 +7,7 @@ import com.example.orders_service.requestmodels.PaymentInfoRequest;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -25,18 +26,33 @@ public class PaymentService {
 
     private final RestTemplate restTemplate;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("Stripe API Key (from @Value): " + secretKey);
+        Stripe.apiKey = secretKey;
+        System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
+    }
     @Value("${catalog.service.url}")
     private String catalogServiceUrl;
 
-    @Value("${stripe.key.secret}") String secretKey;
+    @Value("${Stripe.apiKey}")
+    private String secretKey;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository,
-                          RestTemplate restTemplate) {
+    public PaymentService(PaymentRepository paymentRepository, RestTemplate restTemplate) {
         this.paymentRepository = paymentRepository;
-        Stripe.apiKey = secretKey;
         this.restTemplate = restTemplate;
+        System.out.println("System.getenv(\"STRIPE_KEY_SECRET\"): " + System.getenv("STRIPE_KEY_SECRET"));
+
+        System.out.println("Stripe API Key (from @Value): " + secretKey);
+
+        // Ustawienie klucza dla Stripe
+        Stripe.apiKey = secretKey;
+
+        // Ponowne logowanie wartości po przypisaniu
+        System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }
+
 
     public PaymentIntent createPaymentIntent(PaymentInfoRequest paymentInfoRequest) throws StripeException {
         List<String> paymentMethodTypes = new ArrayList<>();

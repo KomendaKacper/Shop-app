@@ -3,6 +3,7 @@ package com.example.auth_service.security;
 import com.example.auth_service.config.OAuth2LoginSuccessHandler;
 import com.example.auth_service.jwt.AuthEntryPointJwt;
 import com.example.auth_service.jwt.AuthTokenFilter;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,4 +53,15 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    @Configuration
+    public class EnvConfig {
+        static {
+            Dotenv dotenv = Dotenv.configure().directory("../backend").load();
+            System.setProperty("GOOGLE_CLIENT_ID", dotenv.get("GOOGLE_CLIENT_ID"));
+            System.setProperty("GOOGLE_CLIENT_SECRET", dotenv.get("GOOGLE_CLIENT_SECRET"));
+            System.setProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
+        }
+    }
+
 }

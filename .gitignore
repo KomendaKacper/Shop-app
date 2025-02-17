@@ -5,3 +5,4 @@
 /dataSources.local.xml
 /node_modules
 /backend/secrets.properties
+/backend.env

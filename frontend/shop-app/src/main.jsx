@@ -10,32 +10,37 @@ import { AuthContextProvider } from "./store/AuthContext";
 import AllUsers from "./components/Admin/AllUsers.jsx";
 
 const Root = () => {
+  const stripePromise = loadStripe(
+    "pk_test_51QhA5WIB3emFVnXUXPx7Kxr1MEcDxzXmUWIBaQGlUr9x6HhaNYiQnRuvSuD1hlQ9IaGzH8TqaZjKqyCN86klHa8000nKIcGqot"
+  );
   return (
     <BrowserRouter>
-      <AuthContextProvider>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/home" element={<App />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoutes requiredRole="ROLE_ADMIN">
-                <AdminDashboard />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
-            path="/admin/users"
-            element={
-              <ProtectedRoutes requiredRole="ROLE_ADMIN">
-                <AllUsers />
-              </ProtectedRoutes>
-            }
-          />
-        </Routes>
-      </AuthContextProvider>
+      <Elements stripe={stripePromise}>
+        <AuthContextProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/home" element={<App />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoutes requiredRole="ROLE_ADMIN">
+                  <AdminDashboard />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoutes requiredRole="ROLE_ADMIN">
+                  <AllUsers />
+                </ProtectedRoutes>
+              }
+            />
+          </Routes>
+        </AuthContextProvider>
+      </Elements>
     </BrowserRouter>
   );
 };
