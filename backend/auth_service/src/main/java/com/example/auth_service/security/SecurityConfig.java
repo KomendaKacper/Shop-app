@@ -54,14 +54,14 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Configuration
-    public class EnvConfig {
-        static {
-            Dotenv dotenv = Dotenv.configure().directory("../backend").load();
-            System.setProperty("GOOGLE_CLIENT_ID", dotenv.get("GOOGLE_CLIENT_ID"));
-            System.setProperty("GOOGLE_CLIENT_SECRET", dotenv.get("GOOGLE_CLIENT_SECRET"));
-            System.setProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
-        }
-    }
+    // @Configuration
+    // public class EnvConfig {
+    //     static {
+    //         Dotenv dotenv = Dotenv.configure().directory("../backend").load();
+    //         System.setProperty("GOOGLE_CLIENT_ID", dotenv.get("GOOGLE_CLIENT_ID"));
+    //         System.setProperty("GOOGLE_CLIENT_SECRET", dotenv.get("GOOGLE_CLIENT_SECRET"));
+    //         System.setProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
+    //     }
+    // }
 
 }

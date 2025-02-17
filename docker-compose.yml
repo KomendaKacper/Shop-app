@@ -62,13 +62,16 @@ services:
       - "8200:8200"
     depends_on:
       - eureka-server
+    env_file:
+      - .env
     environment:
       - spring.application.name=orders-service
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
-      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_KEY_SECRET=${STRIPE_KEY_SECRET}
     networks:
       - mynetwork
     restart: always
+
 
   auth-service:
     container_name: auth-service
@@ -76,6 +79,8 @@ services:
       context: ./backend/auth_service
     ports:
       - "8100:8100"
+    env_file:
+      - .env
     depends_on:
       - eureka-server
     environment:
@@ -87,6 +92,7 @@ services:
     networks:
       - mynetwork
     restart: always
+
 
   api-gateway:
     container_name: api-gateway
