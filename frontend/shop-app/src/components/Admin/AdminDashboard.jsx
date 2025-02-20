@@ -3,7 +3,7 @@ import AuthContext from "../../store/AuthContext";
 import { IoPerson } from "react-icons/io5";
 import { CgAddR } from "react-icons/cg";
 
-import "../../index.css";
+// import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
