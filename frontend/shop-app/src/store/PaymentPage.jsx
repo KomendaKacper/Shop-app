@@ -105,7 +105,7 @@ export const PaymentPage = () => {
             <input
               type="password"
               placeholder="CVC"
-              className="border p-3 ml-auto w-1/4 rounded- text-black"
+              className="border p-3 ml-auto w-1/4 rounded-md text-black"
               maxLength={3}
             />
           </div>
