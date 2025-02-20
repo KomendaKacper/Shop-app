@@ -3,7 +3,7 @@ import AuthContext from "../../store/AuthContext";
 import { IoPerson } from "react-icons/io5";
 import { CgAddR } from "react-icons/cg";
 
-import "../../index.css";
+// import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
@@ -33,7 +33,7 @@ export default function AdminDashboard() {
             Cześć Admin, witaj w panelu zarządzania!
           </p>
           <div className="m-8 flex-row flex justify-center text-center ">
-            <div className="bg-[rgb(188,58,58)] w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(153,58,58)]">
+            <div className="bg-black w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(153,58,58)]">
               <button
                 className="text-white text-center text-xl w-full h-full"
                 onClick={handleViewUsers}

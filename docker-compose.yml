@@ -50,6 +50,8 @@ services:
       - spring.datasource.password=springstudent
       - spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+      - DB_HOST=mysql
+
     networks:
       - mynetwork
     restart: always
@@ -68,6 +70,7 @@ services:
       - spring.application.name=orders-service
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
       - STRIPE_KEY_SECRET=${STRIPE_KEY_SECRET}
+      - DB_HOST=mysql
     networks:
       - mynetwork
     restart: always
@@ -89,6 +92,7 @@ services:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - DB_HOST=mysql
     networks:
       - mynetwork
     restart: always
