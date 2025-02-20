@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import ProtectedRoutes from "./components/Admin/ProtectedRoutes.jsx";
+import PaymentPage from "./store/PaymentPage.jsx";
 import { AuthContextProvider } from "./store/AuthContext";
 import AllUsers from "./components/Admin/AllUsers.jsx";
 
@@ -24,6 +25,7 @@ const Root = () => {
             <Route path="/home" element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path='/payment' element={<PaymentPage />} />
             <Route
               path="/dashboard"
               element={

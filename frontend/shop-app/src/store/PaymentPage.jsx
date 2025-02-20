@@ -70,3 +70,5 @@ export const PaymentPage = () => {
     return <p>{httpError}</p>;
   }
 };
+
+export default PaymentPage;

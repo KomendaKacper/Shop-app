@@ -3,8 +3,11 @@ import Modal from "./UI/Modal";
 import CartContext from "../store/CartContext";
 import Input from "./UI/Input";
 import UserProgressContext from "../store/UserProgressContext.jsx";
+import PaymentPage from "../store/PaymentPage.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
+  const navigate = useNavigate();
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
 
@@ -33,8 +36,10 @@ export default function Checkout() {
     });
   };
 
-  function test() {
-    console.log(formData);
+  function test(e) {
+    e.preventDefault();
+    console.log('test. purchase');
+    navigate('/payment');
   }
 
   return (
