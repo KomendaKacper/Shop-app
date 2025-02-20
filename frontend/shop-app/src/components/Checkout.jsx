@@ -39,7 +39,7 @@ export default function Checkout() {
 
   return (
     <Modal open={userProgressCtx.progress === "checkout"}>
-      <form className="flex flex-col" onSubmit={test}>
+      <form className="flex flex-col">
         <h2 className="justify-center flex text-2xl m-4" onClick={handleClose}>
           <b>Checkout</b>
         </h2>
@@ -95,7 +95,7 @@ export default function Checkout() {
               >
                 Close
               </button>
-              <button className="rounded-xl ml-2  bg-[#FFBF00] text-m py-1 px-4 cursor-pointer hover:bg-[#ffab04] ">
+              <button className="rounded-xl ml-2  bg-[#FFBF00] text-m py-1 px-4 cursor-pointer hover:bg-[#ffab04]" onClick={test}>
                 Submit purchase
                 {/* Podac trzeba cene walute i email */}
                 {/* Chcemy zeby były zamowinione czyli chce wiedziec co ktos zamowił czyli dac to na backend */}
