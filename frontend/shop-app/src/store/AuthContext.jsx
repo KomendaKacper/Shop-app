@@ -18,6 +18,7 @@ export function AuthContextProvider({ children }) {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
+    console.log("Stored token from localStorage:", storedToken);
     let storedRoles = [];
   
     try {
@@ -57,6 +58,7 @@ export function AuthContextProvider({ children }) {
     } else {
       navigate("/home");
     }
+
   };
 
   const logout = () => {

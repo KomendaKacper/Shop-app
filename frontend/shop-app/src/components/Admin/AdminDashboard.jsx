@@ -30,21 +30,21 @@ export default function AdminDashboard() {
       {isAdmin ? (
         <>
           <p className="text-center text-black">
-            Cześć Admin, witaj w panelu zarządzania!
+            Hi Admin, welcome to managment panel!
           </p>
           <div className="m-8 flex-row flex justify-center text-center ">
-            <div className="bg-[rgb(188,58,58)] w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(153,58,58)]">
+            <div className="w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl ">
               <button
-                className="text-white text-center text-xl w-full h-full"
+                className="text-white text-center text-xl w-full h-full bg-[rgb(188,58,58)] hover:bg-[rgb(153,58,58)] cursor-pointer"
                 onClick={handleViewUsers}
               >
                 View users
               </button>
               <IoPerson className="absolute bottom-2 right-2 text-white text-6xl" />
             </div>
-            <div className="bg-[rgb(54,119,167)] w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(57,103,135)]">
+            <div className=" w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl">
               <button
-                className="text-white text-center text-xl w-full h-full"
+                className="text-white text-center text-xl w-full h-full bg-[rgb(54,119,167)] hover:bg-[rgb(57,103,135)] cursor-pointer"
                 onClick={handleAddProduct}
               >
                 Add product

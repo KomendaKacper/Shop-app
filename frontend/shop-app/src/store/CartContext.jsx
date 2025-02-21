@@ -1,9 +1,10 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useState, useReducer } from "react";
 
 const CartContext = createContext({
   items: [],
   addItem: (item) => {},
   removeItem: (id) => {},
+  totalPrice: 0,
 });
 
 function cartReducer(state, action) {
@@ -48,6 +49,13 @@ function cartReducer(state, action) {
 
 export function CartContextProvider({ children }) {
   const [ cart, dispatchCartAction ] = useReducer(cartReducer, { items: [] });
+  const [totalPrice, setTotalPrice] = useState()
+
+  useEffect(() => {
+    const newTotal = cart.items.reduce((total, item) => total + item.quantity * item.price, 0);
+    setTotalPrice(Number(newTotal.toFixed(2)));
+  }, [cart.items]);
+  
 
   function addItem(item){
     dispatchCartAction({type: 'ADD_ITEM', item});
@@ -59,7 +67,8 @@ export function CartContextProvider({ children }) {
   const cartContext={
     items: cart.items,
     addItem,
-    removeItem
+    removeItem,
+    totalPrice,
   };
 
   return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>;

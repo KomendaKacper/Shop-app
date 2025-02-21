@@ -1,20 +1,17 @@
 import { useContext, useState } from "react";
 import Modal from "./UI/Modal";
-import CartContext from "../store/CartContext";
 import Input from "./UI/Input";
 import UserProgressContext from "../store/UserProgressContext.jsx";
-import PaymentPage from "../store/PaymentPage.jsx";
 import { useNavigate } from "react-router-dom";
+import CartContext from "../store/CartContext.jsx";
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
 
-  const cartTotal = cartCtx.items.reduce(
-    (totalPrice, item) => totalPrice + item.quantity * item.price,
-    0
-  );
+  const cartContext = useContext(CartContext);
+  const cartTotal = cartContext.totalPrice;
+  console.log(cartTotal);
 
   function handleClose() {
     userProgressCtx.hideCheckout();
@@ -36,10 +33,10 @@ export default function Checkout() {
     });
   };
 
-  function test(e) {
+  function handlePurchase(e) {
     e.preventDefault();
-    console.log('test. purchase');
-    navigate('/payment');
+    console.log("Purchase", cartTotal);
+    navigate("/payment", {state: {totalPrice: cartTotal}});
   }
 
   return (
@@ -88,7 +85,7 @@ export default function Checkout() {
           </div>
           <div className="mb-12">
             <p className="float-right mt-1 mb-1 p-2">
-              <b>Total Amount: {cartTotal.toFixed(2)} $</b>
+              <b>Total Amount: {cartTotal} $</b>
             </p>
           </div>
           <div>
@@ -100,10 +97,11 @@ export default function Checkout() {
               >
                 Close
               </button>
-              <button className="rounded-xl ml-2  bg-[#FFBF00] text-m py-1 px-4 cursor-pointer hover:bg-[#ffab04]" onClick={test}>
+              <button
+                className="rounded-xl ml-2  bg-[#FFBF00] text-m py-1 px-4 cursor-pointer hover:bg-[#ffab04]"
+                onClick={handlePurchase}
+              >
                 Submit purchase
-                {/* Podac trzeba cene walute i email */}
-                {/* Chcemy zeby były zamowinione czyli chce wiedziec co ktos zamowił czyli dac to na backend */}
               </button>
             </p>
           </div>
