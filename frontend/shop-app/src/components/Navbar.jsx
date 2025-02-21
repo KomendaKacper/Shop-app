@@ -53,7 +53,6 @@ export default function Navbar() {
     }
   }, [location.search, authCtx]);
 
-  const isLoggedIn = authCtx.token;
 
   return (
     <div id="nav-container" className="p-5 ml-6 mr-6 ">
