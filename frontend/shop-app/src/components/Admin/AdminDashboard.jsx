@@ -33,6 +33,7 @@ export default function AdminDashboard() {
             Hi Admin, welcome to managment panel!
           </p>
           <div className="m-8 flex-row flex justify-center text-center ">
+
             <div className="w-[400px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl ">
               <button
                 className="text-white text-center text-xl w-full h-full bg-[rgb(188,58,58)] hover:bg-[rgb(153,58,58)] cursor-pointer"

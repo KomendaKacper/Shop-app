@@ -1,5 +1,4 @@
 package com.example.auth_service.controllers;
-import com.example.auth_service.dtos.UserDTO;
 import com.example.auth_service.models.MessageResponse;
 import com.example.auth_service.models.Role;
 import com.example.auth_service.models.RolesEnum;
@@ -27,7 +26,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -161,6 +159,7 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
     @GetMapping("/findByEmail/{email}")
     public Optional<User> getUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
