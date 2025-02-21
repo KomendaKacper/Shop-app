@@ -23,6 +23,12 @@ export default function Login() {
     });
   };
 
+  const handleEnterDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin(e);
+    }
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -89,6 +95,8 @@ export default function Login() {
               className="mt-1 block w-full  p-2 rounded-md border text-black bg-slate-100 border-black focus:outline-none focus:ring focus:ring-slate-200"
               placeholder="Enter login"
               onChange={handleInputChange}
+              onKeyDown={handleEnterDown}
+              required
             />
           </div>
           <div className="mb-3 mt-5 ">
@@ -106,6 +114,8 @@ export default function Login() {
               onChange={handleInputChange}
               className="mt-1 block w-full p-2 border-black rounded-md border bg-slate-100 text-black  focus:outline-none focus:ring focus:ring-slate-200"
               placeholder="Enter password"
+              onKeyDown={handleEnterDown}
+              required
             />
             <p className="mt-1 text-black float-right text-sm">
               <a className="cursor-pointer hover:text-slate-500">
@@ -113,7 +123,7 @@ export default function Login() {
               </a>
             </p>
           </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && <p style={{ color: "red" }}>Wrong email or password</p>}
           <button
             onClick={handleLogin}
             className="mt-4 w-full bg-[rgb(78,67,56)] text-white p-2 rounded-md hover:bg-[rgb(95,82,68)]"
