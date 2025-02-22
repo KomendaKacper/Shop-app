@@ -1,21 +1,14 @@
 import { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import '../index.css';
-import { useContext } from "react";
-import CartContext from "./CartContext";
 import { useLocation } from "react-router-dom";
 
 
-// 3726 031897 94952
+// 4242 4242 4242 4242
 // 07/26
 //  559
 
 export const PaymentPage = ({}) => {
-  // const cartCtx = useContext(CartContext);
-
-  // const totalPrice = cartCtx.totalPrice;
-  // console.log(totalPrice);
-  console.log("PaymentPage");
 
   const location = useLocation();
   const totalPrice = location.state.totalPrice || 0;
@@ -23,6 +16,7 @@ export const PaymentPage = ({}) => {
   const [httpError, setHttpError] = useState(false);
   const [currency, setCurrency] = useState("USD");
   const [email, setEmail] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -40,6 +34,8 @@ export const PaymentPage = ({}) => {
       console.log(token)
       return;
     }
+
+    setIsProcessing(true);
 
     const paymentInfo = {
       amount: totalPrice * 100,
@@ -65,9 +61,10 @@ export const PaymentPage = ({}) => {
       }
 
       const stripeResponseJson = await stripeResponse.json();
+      console.log(stripeResponseJson);
 
       const result = await stripe.confirmCardPayment(
-        stripeResponseJson.clientSecret,
+        stripeResponseJson.client_secret,
         {
           payment_method: {
             card: elements.getElement(CardElement),
@@ -76,9 +73,10 @@ export const PaymentPage = ({}) => {
         }
       );
 
+
       if (result.error) {
         setHttpError(result.error.message);
-      } else {
+      } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
         await fetch(
           `http://localhost:8200/api/payment/secure/payment-complete`,
           {
@@ -89,10 +87,22 @@ export const PaymentPage = ({}) => {
             },
           }
         );
+
+        if(!response.ok){
+          const errorResponse = await response.json();
+          console.error("Błąd PUT:", errorResponse);
+          throw new Error("PUT nie przeszedł!");
+        }
+        console.log("PUT przeszedł!");
+
         setHttpError(false);
+      }else {
+        setHttpError("Payment failed. Please try again.");
       }
     } catch (error) {
       setHttpError(error.message);
+    } finally {
+      setIsProcessing(false);
     }
   }
 
@@ -129,10 +139,11 @@ export const PaymentPage = ({}) => {
           <CardElement className="border p-3 rounded-md bg-white" />
           <button
             type="button"
-            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
             onClick={checkout}
+            disabled={isProcessing}
           >
-            Pay Now
+            {isProcessing ? "Processing..." : "Pay Now"}
           </button>
         </form>
       </div>
