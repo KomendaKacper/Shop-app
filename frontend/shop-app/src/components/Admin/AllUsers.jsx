@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CgAddR } from "react-icons/cg";
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);

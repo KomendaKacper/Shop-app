@@ -12,7 +12,7 @@ import PaymentPage from "./store/PaymentPage.jsx";
 import { AuthContextProvider } from "./store/AuthContext";
 import AllUsers from "./components/Admin/AllUsers.jsx";
 import { CartContextProvider } from "./store/CartContext.jsx";
-import { UserProgressContextProvider } from "./store/UserProgressContext.jsx";
+import AddProduct from "./components/Admin/AddProduct.jsx";
 
 const Root = () => {
   const stripePromise = loadStripe(
@@ -45,6 +45,14 @@ const Root = () => {
                   </ProtectedRoutes>
                 }
               />
+                <Route
+                  path="/admin/add-product"
+                  element={
+                    <ProtectedRoutes requiredRole="ROLE_ADMIN">
+                      <AddProduct/>
+                    </ProtectedRoutes>
+                  }
+                />
             </Routes>
           </AuthContextProvider>
         </CartContextProvider>
