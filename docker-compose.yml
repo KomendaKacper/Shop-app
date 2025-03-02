@@ -71,6 +71,7 @@ services:
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
       - STRIPE_KEY_SECRET=${STRIPE_KEY_SECRET}
       - DB_HOST=mysql
+      - AUTH_SERVICE_HOST=auth-service
     networks:
       - mynetwork
     restart: always

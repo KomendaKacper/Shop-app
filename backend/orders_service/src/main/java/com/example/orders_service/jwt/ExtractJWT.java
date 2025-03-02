@@ -7,9 +7,8 @@ import java.util.Map;
 public class ExtractJWT {
 
     public static String payloadJWTExtraction(String token, String extraction) {
-
+        System.out.println("Token: "+ token);
         token.replace("Bearer ", "");
-
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
@@ -20,6 +19,7 @@ public class ExtractJWT {
 
         for (String entry : entries) {
             String[] keyValue = entry.split(":");
+
             if (keyValue[0].equals(extraction)) {
 
                 int remove = 1;
@@ -28,13 +28,15 @@ public class ExtractJWT {
                 }
                 keyValue[1] = keyValue[1].substring(0, keyValue[1].length() - remove);
                 keyValue[1] = keyValue[1].substring(1);
-
                 map.put(keyValue[0], keyValue[1]);
             }
         }
         if (map.containsKey(extraction)) {
+            System.out.println("Returning extraction");
+            System.out.println(map.get(extraction));
             return map.get(extraction);
         }
+        System.out.println("Returning null");
         return null;
     }
 }

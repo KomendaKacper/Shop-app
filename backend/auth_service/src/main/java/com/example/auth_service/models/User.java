@@ -32,7 +32,7 @@ public class User {
     @NotBlank
     @Size(max = 20)
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @NotBlank
     @Size(max = 50)
@@ -71,13 +71,13 @@ public class User {
     private LocalDateTime updatedDate;
 
     public User(String userName, String email, String password) {
-        this.userName = userName;
+        this.username = userName;
         this.email = email;
         this.password = password;
     }
 
     public User(String userName, String email) {
-        this.userName = userName;
+        this.username = userName;
         this.email = email;
     }
 
