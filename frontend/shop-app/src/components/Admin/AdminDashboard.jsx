@@ -15,12 +15,10 @@ export default function AdminDashboard() {
 
   const handleViewUsers = () => {
     navigator("/admin/users");
-    console.log("View users");
   };
 
   const handleAddProduct = () => {
-    // navigator("/admin/add-product");
-    console.log("Add product");
+    navigator("/admin/add-product");
   };
 
   return (
