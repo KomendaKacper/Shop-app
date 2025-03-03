@@ -1,5 +1,6 @@
 package com.example.orders_service.controllers;
 
+import com.example.orders_service.dto.ItemDTO;
 import com.example.orders_service.dto.UserDTO;
 import com.example.orders_service.feign.AuthClient;
 import com.example.orders_service.jwt.ExtractJWT;
@@ -10,6 +11,8 @@ import com.stripe.model.PaymentIntent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/payment/secure")
@@ -33,14 +36,17 @@ public class PaymentController {
     }
 
     @PutMapping("/payment-complete")
-    public ResponseEntity<String> stripePaymentComplete(@RequestHeader(value = "Authorization") String token) throws Exception {
-        String username = ExtractJWT.payloadJWTExtraction(token, "{\"sub\"");
+    public ResponseEntity<String> stripePaymentComplete(
+            @RequestHeader(value = "Authorization") String token,
+            @RequestBody List<ItemDTO> cart) throws Exception {
 
+        String username = ExtractJWT.payloadJWTExtraction(token, "{\"sub\"");
         UserDTO user = authClient.findByUsername(username);
         if (user == null) {
             throw new Exception("User not found");
         }
-
-        return paymentService.stripePayment(user.getEmail());
+        System.out.println(cart);
+        return paymentService.stripePayment(user.getEmail(), cart);
     }
+
 }
