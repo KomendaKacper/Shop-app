@@ -2,13 +2,19 @@ import { useState } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import '../index.css';
 import { useLocation } from "react-router-dom";
-
+import { useContext } from "react";
+import CartContext from "./CartContext";
 
 // 4242 4242 4242 4242
 // 07/26
 //  559
 
 export const PaymentPage = ({}) => {
+
+  const cartCtx = useContext(CartContext);
+  const cartItems = cartCtx.items;
+
+  console.log(cartItems)
 
   const location = useLocation();
   const totalPrice = location.state.totalPrice || 0;
@@ -85,6 +91,7 @@ export const PaymentPage = ({}) => {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
+            body: JSON.stringify(cartItems),
           }
         );
 

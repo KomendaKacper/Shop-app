@@ -5,18 +5,17 @@ import Navbar from "./components/Navbar";
 import { CartContextProvider } from "./store/CartContext.jsx";
 import { UserProgressContextProvider } from "./store/UserProgressContext.jsx";
 import { AuthContextProvider } from "./store/AuthContext.jsx";
+import PaymentPage from "./store/PaymentPage.jsx";
 
 function App() {
   return (
     <>
       <AuthContextProvider>
         <UserProgressContextProvider>
-          <CartContextProvider>
             <Navbar />
             <Clothes />
             <Cart />
             <Checkout />
-          </CartContextProvider>
         </UserProgressContextProvider>
       </AuthContextProvider>
     </>
