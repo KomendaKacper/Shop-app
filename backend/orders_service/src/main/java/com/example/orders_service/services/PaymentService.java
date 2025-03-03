@@ -24,7 +24,6 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    private final RestTemplate restTemplate;
 
     @PostConstruct
     public void init() {
@@ -41,15 +40,7 @@ public class PaymentService {
     @Autowired
     public PaymentService(PaymentRepository paymentRepository, RestTemplate restTemplate) {
         this.paymentRepository = paymentRepository;
-        this.restTemplate = restTemplate;
-        System.out.println("System.getenv(\"STRIPE_KEY_SECRET\"): " + System.getenv("STRIPE_KEY_SECRET"));
-
-        System.out.println("Stripe API Key (from @Value): " + secretKey);
-
-        // Ustawienie klucza dla Stripe
         Stripe.apiKey = secretKey;
-
-        // Ponowne logowanie wartości po przypisaniu
         System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }
 
@@ -66,26 +57,19 @@ public class PaymentService {
         return PaymentIntent.create(params);
     }
 
-    public ResponseEntity<String> stripePayment(String userEmail) throws Exception {
+    public ResponseEntity<String> stripePayment(String userEmail) {
         Payment payment = paymentRepository.findByUserEmail(userEmail);
 
         if (payment == null) {
-            throw new Exception("Payment information is missing");
+            payment = new Payment();
+            payment.setUserEmail(userEmail);
+            payment.setAmount(0.00);
         }
-        payment.setAmount(00.0);
+
         paymentRepository.save(payment);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>("Payment record created/updated successfully", HttpStatus.OK);
     }
 
-    public List<ClothesDTO> fetchClothesByNames(List<String> names) {
-        String url = catalogServiceUrl + "/api/catalog/filter-by-names";
-        ResponseEntity<ClothesDTO[]> response = restTemplate.postForEntity(url, names, ClothesDTO[].class);
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            return Arrays.asList(response.getBody());
-        } else {
-            throw new RuntimeException("Failed to fetch clothes from catalog_service");
-        }
-    }
 
 }

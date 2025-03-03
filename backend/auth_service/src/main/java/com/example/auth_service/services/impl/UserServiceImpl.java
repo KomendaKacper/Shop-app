@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public void updateUserRole(Long userId, String roleName) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println("Updating role for user: " + user.getUserName());
+        System.out.println("Updating role for user: " + user.getUsername());
 
         RolesEnum rolesEnum = RolesEnum.valueOf(roleName);
         Role role = roleRepository.findByRoleName(rolesEnum)
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
         return  new UserDTO(
                 user.getUserId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getEmail(),
                 user.isAccountNonLocked(),
                 user.isAccountNonExpired(),
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        Optional<User> user = userRepository.findByUserName(username);
+        Optional<User> user = userRepository.findByUsername(username);
         return user.orElseThrow(() -> new RuntimeException("User not found"));
     }
 

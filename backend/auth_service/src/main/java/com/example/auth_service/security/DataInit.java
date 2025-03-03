@@ -43,7 +43,7 @@ public class DataInit {
     }
 
     private void initUser(String username, String email, String password, Role role, boolean accountNonLocked) {
-        if (!userRepository.existsByUserName(username)) {
+        if (!userRepository.existsByUsername(username)) {
             User user = new User(username, email, passwordEncoder.encode(password));
             user.setAccountNonLocked(accountNonLocked);
             user.setAccountNonExpired(true);

@@ -88,7 +88,7 @@ public class AuthController {
 
         UserInfoResponse response = new UserInfoResponse(
                 user.getUserId(),
-                user.getUserName(),
+                user.getUsername(),
                 user.getEmail(),
                 user.isAccountNonLocked(),
                 user.isAccountNonExpired(),
@@ -126,7 +126,7 @@ public class AuthController {
 
     @PostMapping("/public/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUserName(signUpRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
@@ -163,5 +163,12 @@ public class AuthController {
     @GetMapping("/findByEmail/{email}")
     public Optional<User> getUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
+    }
+
+    @GetMapping("/findByUsername/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username) {
+        return userRepository.findByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
