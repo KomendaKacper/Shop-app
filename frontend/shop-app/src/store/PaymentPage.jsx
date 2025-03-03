@@ -46,7 +46,7 @@ export const PaymentPage = () => {
 
     try {
       const stripeResponse = await fetch(
-        `http://localhost:8200/api/payment/secure/payment-intent`,
+        `http://localhost:8765/orders-service/api/payment/secure/payment-intent`,
         {
           method: "POST",
           headers: {
@@ -76,7 +76,7 @@ export const PaymentPage = () => {
         setHttpError(result.error.message);
       } else if (result.paymentIntent?.status === "succeeded") {
         const response = await fetch(
-          `http://localhost:8200/api/payment/secure/payment-complete`,
+          `http://localhost:8765/orders-service/api/payment/secure/payment-complete`,
           {
             method: "PUT",
             headers: {
@@ -94,7 +94,7 @@ export const PaymentPage = () => {
         }
 
         setHttpError(false);
-        navigate("/"); // ✅ Teraz działa poprawnie
+        navigate("/");
       } else {
         setHttpError("Payment failed. Please try again.");
       }
