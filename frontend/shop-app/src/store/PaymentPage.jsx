@@ -1,32 +1,28 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-import '../index.css';
-import { useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import CartContext from "./CartContext";
+import "../index.css";
 
 // 4242 4242 4242 4242
 // 07/26
 //  559
 
-export const PaymentPage = ({}) => {
-
+export const PaymentPage = () => {
   const cartCtx = useContext(CartContext);
   const cartItems = cartCtx.items;
 
-  console.log(cartItems)
-
   const location = useLocation();
-  const totalPrice = location.state.totalPrice || 0;
-  
+  const navigate = useNavigate();
+  const totalPrice = location.state?.totalPrice || 0;
+
   const [httpError, setHttpError] = useState(false);
-  const [currency, setCurrency] = useState("USD");
+  const [currency] = useState("USD");
   const [email, setEmail] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const stripe = useStripe();
   const elements = useElements();
-
 
   async function checkout() {
     if (!stripe || !elements) {
@@ -37,7 +33,6 @@ export const PaymentPage = ({}) => {
     const token = localStorage.getItem("token");
     if (!token) {
       setHttpError("Authorization error. You must be logged in.");
-      console.log(token)
       return;
     }
 
@@ -45,8 +40,8 @@ export const PaymentPage = ({}) => {
 
     const paymentInfo = {
       amount: totalPrice * 100,
-      currency: currency,
-      email: email,
+      currency,
+      email,
     };
 
     try {
@@ -67,8 +62,6 @@ export const PaymentPage = ({}) => {
       }
 
       const stripeResponseJson = await stripeResponse.json();
-      console.log(stripeResponseJson);
-
       const result = await stripe.confirmCardPayment(
         stripeResponseJson.client_secret,
         {
@@ -79,11 +72,10 @@ export const PaymentPage = ({}) => {
         }
       );
 
-
       if (result.error) {
         setHttpError(result.error.message);
-      } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-        await fetch(
+      } else if (result.paymentIntent?.status === "succeeded") {
+        const response = await fetch(
           `http://localhost:8200/api/payment/secure/payment-complete`,
           {
             method: "PUT",
@@ -95,15 +87,15 @@ export const PaymentPage = ({}) => {
           }
         );
 
-        if(!response.ok){
+        if (!response.ok) {
           const errorResponse = await response.json();
           console.error("Błąd PUT:", errorResponse);
           throw new Error("PUT nie przeszedł!");
         }
-        console.log("PUT przeszedł!");
 
         setHttpError(false);
-      }else {
+        navigate("/"); // ✅ Teraz działa poprawnie
+      } else {
         setHttpError("Payment failed. Please try again.");
       }
     } catch (error) {
@@ -123,16 +115,8 @@ export const PaymentPage = ({}) => {
 
         <form className="space-y-6">
           <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="Joe"
-              className="border p-3 w-1/2 rounded-md text-black"
-            />
-            <input
-              type="text"
-              placeholder="Doe"
-              className="border p-3 w-1/2 rounded-md text-black"
-            />
+            <input type="text" placeholder="Joe" className="border p-3 w-1/2 rounded-md text-black" />
+            <input type="text" placeholder="Doe" className="border p-3 w-1/2 rounded-md text-black" />
           </div>
           <div className="flex">
             <input

@@ -9,6 +9,8 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,8 @@ public class PaymentService {
 
     @Value("${Stripe.apiKey}")
     private String secretKey;
+
+    private static final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
     @Autowired
     public PaymentService(PaymentRepository paymentRepository) {
@@ -74,18 +78,32 @@ public class PaymentService {
     }
 
     private ResponseEntity<String> savePaymentWithItems(Payment payment, List<ItemDTO> cart) {
+        log.info("Rozpoczęcie przetwarzania płatności dla: {}", payment.getUserEmail());
+        log.info("Lista zakupionych przedmiotów: {}", cart);
+
+        // Obliczamy łączną kwotę
         final double totalAmount = cart.stream()
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
         payment.setAmount(totalAmount);
+        log.info("Całkowita kwota płatności: {}", totalAmount);
 
-        List<PurchasedItem> purchasedItems = cart.stream()
-                .map(item -> new PurchasedItem(payment, item.getName(), item.getPrice(), item.getQuantity()))
-                .collect(Collectors.toList());
+        // Pobieramy istniejącą listę PurchasedItems zamiast podmieniać referencję
+        List<PurchasedItem> purchasedItems = payment.getPurchasedItems();
+        if (purchasedItems == null) {
+            purchasedItems = new ArrayList<>();
+            payment.setPurchasedItems(purchasedItems);
+        } else {
+            purchasedItems.clear(); // Usuwamy stare rekordy, ale nie podmieniamy listy!
+        }
 
+        // Dodajemy nowe zakupy do listy
+        for (ItemDTO item : cart) {
+            purchasedItems.add(new PurchasedItem(payment, item.getName(), item.getPrice(), item.getQuantity()));
+        }
 
-        payment.setPurchasedItems(purchasedItems);
         paymentRepository.save(payment);
+        log.info("Płatność zapisana w bazie dla: {}", payment.getUserEmail());
 
         return new ResponseEntity<>("Payment record created/updated successfully", HttpStatus.OK);
     }
