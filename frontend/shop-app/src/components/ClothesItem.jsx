@@ -3,7 +3,7 @@ import CartContex from "../store/CartContext";
 import "./ImageFlip.css";
 
 export default function ClothesItem({ product }) {
-  const backendUrl = "http://localhost:8001/api/catalog/";
+  const backendUrl = "http://localhost:8765/catalog-service/api/catalog/";
 
   const cartCtx = useContext(CartContex);
 

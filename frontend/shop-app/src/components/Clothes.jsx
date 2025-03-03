@@ -10,7 +10,7 @@ export default function Clothes({ clothes }) {
   useEffect(() => {
     async function fetchClothes() {
       try {
-        const response = await fetch("http://localhost:8001/api/catalog/products");
+        const response = await fetch("http://localhost:8765/catalog-service/api/catalog/products");
         if (!response.ok) {
           throw new Error("Fail to fetch items");
         }

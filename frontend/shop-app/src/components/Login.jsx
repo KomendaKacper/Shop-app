@@ -33,7 +33,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:8100/api/auth/public/signin",
+        "http://localhost:8765/auth-service/api/auth/public/signin",
         {
           method: "POST",
           headers: {

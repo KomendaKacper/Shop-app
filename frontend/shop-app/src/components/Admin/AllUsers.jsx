@@ -8,7 +8,7 @@ export default function AllUsers() {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8100/api/admin/get-users",
+          "http://localhost:8765/auth-service/api/admin/get-users",
           {
             method: "GET",
             headers: {
