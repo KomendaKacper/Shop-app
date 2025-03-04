@@ -16,8 +16,23 @@ export default function Checkout() {
   const cartTotal = cartContext.totalPrice;
   console.log(cartTotal);
 
-  const notify = () =>
-    toast.error("You have to be logged in to finalize your purchase!");
+  const notify = () => {
+    toast.dismiss();
+    console.log("Toast shown");
+    toast.success("Successfully added to cart!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
+    });
+    toast.dismiss();
+  };
+  
 
   function handleClose() {
     userProgressCtx.hideCheckout();
@@ -119,11 +134,12 @@ export default function Checkout() {
               >
                 Submit purchase
               </button>
-              <ToastContainer />
             </p>
           </div>
         </div>
       </form>
+      <ToastContainer autoClose={5000} />
+
     </Modal>
   );
 }

@@ -74,7 +74,7 @@ export default function Navbar() {
               {isAdmin && <MdOutlineAdminPanelSettings size={25} />}
             </a>
           </li>
-          <li
+          {/* <li
             id="nav-el"
             className=" ml-[20px] mr-[20px] cursor-pointer float-right hover:text-[rgb(183,164,143)] hover:scale-150"
           >
@@ -82,7 +82,10 @@ export default function Navbar() {
             <a href="/home">
               <IoHome size={25} />
             </a>
-          </li>
+          </li> */}
+
+            
+
           <li className="ml-[20px] mr-[20px] cursor-pointer hover:text-[rgb(183,164,143)] hover:scale-150">
             <a>
               {isLoggedIn ? (
