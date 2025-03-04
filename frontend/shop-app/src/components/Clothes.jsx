@@ -9,7 +9,22 @@ export default function Clothes() {
   const [totalPages, setTotalPages] = useState(1);
   const [enteredFilter, setEnteredFilter] = useState("");
   const [filteredClothes, setFilteredClothes] = useState([]);
+  const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const navigate = useNavigate();
+
+
+  const categories = [
+    "Sweatshirt",
+    "T-shirt",
+    "Hat",
+    "Shirt",
+    "Jacket",
+    "UnderShirt",
+    "Trousers",
+    "Accessory",
+    "Jeans",
+  ];
 
   useEffect(() => {
     async function fetchClothes() {
@@ -17,18 +32,20 @@ export default function Clothes() {
         let url;
         if (enteredFilter) {
           url = `http://localhost:8765/catalog-service/api/catalog/filter-by-names/${enteredFilter}`;
+        } else if (selectedCategory) {
+          url = `http://localhost:8765/catalog-service/api/catalog/filter-by-category/${selectedCategory.trim()}`;
         } else {
           url = `http://localhost:8765/catalog-service/api/catalog/products?page=${currentPage}&size=6`;
         }
-  
+
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Fail to fetch items");
         }
-  
+
         const data = await response.json();
-  
-        if (enteredFilter) {
+
+        if (enteredFilter || selectedCategory) {
           setFilteredClothes(data);
         } else {
           setLoadedClothes(data.content);
@@ -38,31 +55,58 @@ export default function Clothes() {
         console.error("Error fetching clothes:", error);
       }
     }
-  
+
     fetchClothes();
-  }, [currentPage, enteredFilter]); 
-  
-  
+  }, [currentPage, enteredFilter, selectedCategory]);
+
   return (
     <>
-      <div className="w-[500px] mx-auto flex justify-start gap-2 ">
+      <div className="w-[500px] mx-auto flex justify-start gap-2">
         <div className="flex-1">
-          <ReactSearchBox placeholder="Search..." onChange={(value) => setEnteredFilter(value)}/>
+          <ReactSearchBox
+            placeholder="Search..."
+            onChange={(value) => setEnteredFilter(value)}
+          />
         </div>
-        <button className="p-2 rounded-lg bg-yellow-800 " >
-          Categories
-        </button>
+
+        <div className="relative">
+          <button
+            className="p-2 rounded-lg bg-yellow-800 text-white"
+            onClick={() => setShowCategories((prev) => !prev)}
+          >
+            Categories
+          </button>
+
+          {showCategories && (
+            <ul className="absolute mt-2 border rounded-lg shadow-lg w-40 bg-amber-900 overflow-auto max-h-60 z-50">
+              {categories.map((category) => (
+                <li
+                  key={category}
+                  className="p-2 hover:bg-amber-800 cursor-pointer"
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setShowCategories(false);
+                  }}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <div>
         <ul className="w-[90%] max-w-[70rem] my-8 mx-auto p-4 gap-4 flex flex-wrap justify-center">
-          
-          {(enteredFilter ? filteredClothes : loadedClothes).map((product) => (
+          {(enteredFilter || selectedCategory
+            ? filteredClothes
+            : loadedClothes
+          ).map((product) => (
             <ClothesItem key={product.id} product={product} />
           ))}
         </ul>
 
-        {/* PAGINACJA */}
+        {/* 🔹 PAGINACJA */}
         <div className="flex justify-center mt-4">
           <button
             className="mx-2 px-4 py-2 bg-gray-300 rounded-lg disabled:opacity-50"
