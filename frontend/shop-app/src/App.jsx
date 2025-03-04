@@ -6,6 +6,7 @@ import { CartContextProvider } from "./store/CartContext.jsx";
 import { UserProgressContextProvider } from "./store/UserProgressContext.jsx";
 import { AuthContextProvider } from "./store/AuthContext.jsx";
 import PaymentPage from "./store/PaymentPage.jsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Clothes />
             <Cart />
             <Checkout />
+            <ToastContainer />
         </UserProgressContextProvider>
       </AuthContextProvider>
     </>
