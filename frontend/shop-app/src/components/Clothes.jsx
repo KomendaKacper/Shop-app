@@ -45,11 +45,11 @@ export default function Clothes() {
   
   return (
     <>
-      <div className="w-[500px] mx-auto flex justify-start gap-2">
+      <div className="w-[500px] mx-auto flex justify-start gap-2 ">
         <div className="flex-1">
           <ReactSearchBox placeholder="Search..." onChange={(value) => setEnteredFilter(value)}/>
         </div>
-        <button className="p-2  text-white rounded">
+        <button className="p-2 rounded-lg bg-yellow-800 " >
           Categories
         </button>
       </div>
