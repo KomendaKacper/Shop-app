@@ -7,6 +7,14 @@ An e-commerce web application designed to provide a seamless shopping experience
 
 ---
 
+## Project Overview
+
+Shop-App is a scalable e-commerce application where users can browse products, view product details, and manage their shopping cart. The app follows a microservices-based backend structure with a robust frontend built on React.
+
+The backend API provides endpoints for product management, authentication, and other functionalities. The frontend consumes these APIs and presents an intuitive UI for users.
+
+---
+
 ![image](https://github.com/user-attachments/assets/1c766ef1-3a99-48cd-8477-50e19a953566)
 
 ---
@@ -32,13 +40,6 @@ An e-commerce web application designed to provide a seamless shopping experience
 
 ---
 
-## Project Overview
-
-Shop-App is a scalable e-commerce application where users can browse products, view product details, and manage their shopping cart. The app follows a microservices-based backend structure with a robust frontend built on React.
-
-The backend API provides endpoints for product management, authentication, and other functionalities. The frontend consumes these APIs and presents an intuitive UI for users.
-
----
 
 ## Technologies Used
 
@@ -58,7 +59,6 @@ The backend API provides endpoints for product management, authentication, and o
 - **React**: Component-based UI library for building the user interface.
 - **Vite**: Lightweight and fast build tool for modern web applications.
 - **Tailwind CSS**: Utility-first CSS framework for styling.
-- **Axios**: HTTP client for interacting with backend APIs.
 - **React Router**: Enables single-page application (SPA) navigation.
 - **Stripe**: Integrated for secure payment processing.
 
