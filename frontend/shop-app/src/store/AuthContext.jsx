@@ -43,7 +43,7 @@ export function AuthContextProvider({ children }) {
     if (newRoles.includes("ROLE_ADMIN")) {
       navigate("/dashboard");
     } else {
-      navigate("/home");
+      navigate("/noaccess");
     }
   };
 
