@@ -13,6 +13,8 @@ import { AuthContextProvider } from "./store/AuthContext";
 import AllUsers from "./components/Admin/AllUsers.jsx";
 import { CartContextProvider } from "./store/CartContext.jsx";
 import AddProduct from "./components/Admin/AddProduct.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
+import NoAccess from "./components/NoAccess.jsx";
 
 const Root = () => {
   const stripePromise = loadStripe(
@@ -28,6 +30,8 @@ const Root = () => {
               <Route path="/home" element={<App />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="*" element={<ErrorPage />}/>
+              <Route path="/noaccess" element={<NoAccess />}/>
               <Route path="/payment" element={<PaymentPage />} />
               <Route
                 path="/dashboard"

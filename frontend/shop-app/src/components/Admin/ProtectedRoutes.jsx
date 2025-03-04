@@ -11,7 +11,7 @@ const ProtectedRoutes = ({ children, requiredRole }) => {
   }
 
   if (requiredRole && !authCtx.roles.includes(requiredRole)) {
-    return <Navigate to="/home" replace />;
+    return <Navigate to="/noaccess" replace />;
   }
 
   return children;
