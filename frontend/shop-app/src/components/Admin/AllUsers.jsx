@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import Navbar from "../Navbar";
+import BackArrow from "../UI/BackArrow";
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
@@ -31,26 +33,30 @@ export default function AllUsers() {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-3xl m-8 text-center text-black">Users list</h1>
-      {error ? (
-        <p>Error: {error}</p>
-      ) : (
-        <ul className="flex flex-wrap justify-center">
-          {users.map((user) => (
-            <li key={user.userId} className="flex flex-col ">
-              <div className="bg-[rgb(148,131,77)] w-[300px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(122,108,63)]">
-                <div className="flex flex-col">
-                  <p className="block">{user.userName}</p>
-                  <p>{user.email}</p>
-                  <p>{new Date(user.createdDate).toLocaleString()}</p>
-                  <p>{user.accountExpiryDate}</p>
+    <>
+      <Navbar />
+      <BackArrow/>
+      <div>
+        <h1 className="text-3xl m-8 text-center text-black">Users list</h1>
+        {error ? (
+          <p>Error: {error}</p>
+        ) : (
+          <ul className="flex flex-wrap justify-center">
+            {users.map((user) => (
+              <li key={user.userId} className="flex flex-col ">
+                <div className="bg-[rgb(148,131,77)] w-[300px] h-[300px] m-8 flex justify-center items-center relative shadow-lg rounded-2xl hover:bg-[rgb(122,108,63)]">
+                  <div className="flex flex-col">
+                    <p className="block">{user.userName}</p>
+                    <p>{user.email}</p>
+                    <p>{new Date(user.createdDate).toLocaleString()}</p>
+                    <p>{user.accountExpiryDate}</p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useNavigate, useLocation } from "react-router-dom";
 import CartContext from "./CartContext";
 import "../index.css";
+import BackArrow from "../components/UI/BackArrow";
 
 // 4242 4242 4242 4242
 // 07/26
@@ -106,39 +107,54 @@ export const PaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
-      <div className="bg-slate-600 w-3/5 p-8 rounded-lg shadow-lg h-auto">
-        <div className="flex justify-between border-b pb-4 mb-6">
-          <span className="text-xl font-semibold">Total:</span>
-          <span className="text-xl font-semibold">${totalPrice.toFixed(2)}</span>
-        </div>
-
-        <form className="space-y-6">
-          <div className="flex space-x-4">
-            <input type="text" placeholder="Joe" className="border p-3 w-1/2 rounded-md text-black" />
-            <input type="text" placeholder="Doe" className="border p-3 w-1/2 rounded-md text-black" />
-          </div>
-          <div className="flex">
-            <input
-              type="email"
-              placeholder="JoeDoe@mail.com"
-              className="border p-3 w-full rounded-md text-black"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <CardElement className="border p-3 rounded-md bg-white" />
-          <button
-            type="button"
-            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
-            onClick={checkout}
-            disabled={isProcessing}
-          >
-            {isProcessing ? "Processing..." : "Pay Now"}
-          </button>
-        </form>
+    <>
+      <div className="m-6">
+        <BackArrow />
       </div>
-    </div>
+      <div className="min-h-screen flex items-center justify-center ">
+        <div className="bg-slate-600 w-3/5 p-8 rounded-lg shadow-lg h-auto">
+          <div className="flex justify-between border-b pb-4 mb-6">
+            <span className="text-xl font-semibold">Total:</span>
+            <span className="text-xl font-semibold">
+              ${totalPrice.toFixed(2)}
+            </span>
+          </div>
+
+          <form className="space-y-6">
+            <div className="flex space-x-4">
+              <input
+                type="text"
+                placeholder="Joe"
+                className="border p-3 w-1/2 rounded-md text-black"
+              />
+              <input
+                type="text"
+                placeholder="Doe"
+                className="border p-3 w-1/2 rounded-md text-black"
+              />
+            </div>
+            <div className="flex">
+              <input
+                type="email"
+                placeholder="JoeDoe@mail.com"
+                className="border p-3 w-full rounded-md text-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <CardElement className="border p-3 rounded-md bg-white" />
+            <button
+              type="button"
+              className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+              onClick={checkout}
+              disabled={isProcessing}
+            >
+              {isProcessing ? "Processing..." : "Pay Now"}
+            </button>
+          </form>
+        </div>
+      </div>
+    </>
   );
 };
 
