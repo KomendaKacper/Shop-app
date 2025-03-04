@@ -4,24 +4,6 @@ An e-commerce web application designed to provide a seamless shopping experience
 
 - **Backend**: Handled by [KomendaKacper](https://github.com/KomendaKacper)
 - **Frontend**: Handled by [Szymi611](https://github.com/Szymi611)
----
-![image](https://github.com/user-attachments/assets/5812c5d7-9269-4789-9311-221e27adb391)
----
-![image](https://github.com/user-attachments/assets/7ee13513-70ce-447f-b699-517699b23bfd)
----
-![image](https://github.com/user-attachments/assets/bf6e6a68-93c1-463b-9858-250c9533ea89)
----
-
-
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Technologies Used](#technologies-used)
-- [Backend](#backend)
-- [Frontend](#frontend)
-- [Key Features](#key-features)
-- [Running the Application with Docker](#running-the-application-with-docker)
-- [Future Improvements](#future-improvements)
 
 ---
 
@@ -32,6 +14,32 @@ Shop-App is a scalable e-commerce application where users can browse products, v
 The backend API provides endpoints for product management, authentication, and other functionalities. The frontend consumes these APIs and presents an intuitive UI for users.
 
 ---
+
+![image](https://github.com/user-attachments/assets/1c766ef1-3a99-48cd-8477-50e19a953566)
+
+---
+
+![image](https://github.com/user-attachments/assets/ce647d99-3749-40e9-b231-3ec17a4f6792)
+
+---
+
+![image](https://github.com/user-attachments/assets/91dcaaaa-0063-4a16-935e-aa072a477f10)
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Backend](#backend)
+- [Frontend](#frontend)
+- [Key Features](#key-features)
+- [Running the Application with Docker](#running-the-application-with-docker)
+- [Future Improvements](#future-improvements)
+- [Configuration Secrets](#configuration-secrets)
+
+---
+
 
 ## Technologies Used
 
@@ -51,8 +59,8 @@ The backend API provides endpoints for product management, authentication, and o
 - **React**: Component-based UI library for building the user interface.
 - **Vite**: Lightweight and fast build tool for modern web applications.
 - **Tailwind CSS**: Utility-first CSS framework for styling.
-- **Axios**: HTTP client for interacting with backend APIs.
 - **React Router**: Enables single-page application (SPA) navigation.
+- **Stripe**: Integrated for secure payment processing.
 
 ### DevOps and Deployment:
 
@@ -70,6 +78,7 @@ The backend, developed by **KomendaKacper**, focuses on:
 2. **Authentication**:
    - Role-based access control using **Spring Security**.
    - JWT-based authentication for secure user management.
+   - **Google Authentication**: Users can authenticate using Google OAuth (Google Client ID and Secret are required).
 3. **Database Management**:
    - **MySQL** is used to persist data.
    - **Spring Data JPA** manages data access.
@@ -77,6 +86,8 @@ The backend, developed by **KomendaKacper**, focuses on:
    - OpenAPI/Swagger generates comprehensive API documentation for testing.
 5. **Microservices Structure**:
    - The backend is split into independent services to ensure scalability and separation of concerns.
+6. **Admin Dashboard**: For product and order management.
+7. **Payment Integration**: Integrated **Stripe** for secure payments.
 
 ---
 
@@ -88,10 +99,13 @@ The frontend, developed by **Szymi611**, is a modern React-based application wit
 
 - **Product Display**:
   - Displays products fetched from the backend API.
-  - (Planned): Includes sorting, filtering, and search functionalities.
+  - Includes sorting, filtering (by name or category), and search functionalities.
 - **Shopping Cart**: Users can add, update, and remove items.
 - **Routing**: Handled by **React Router** for a seamless SPA experience.
 - **Responsive Design**: Styled with **Tailwind CSS** for desktop and mobile compatibility.
+- **Error Handling**: Includes an error page for handling invalid or missing content.
+- **Stripe Payment Integration**: Secure payment processing integrated with **Stripe**.
+- **Admin Dashboard**: Allows admin users to manage products and view orders.
 
 ---
 
@@ -104,6 +118,10 @@ The frontend, developed by **Szymi611**, is a modern React-based application wit
 5. **API Documentation**: Easy testing and integration using Swagger.
 6. **Containerized Deployment**: Backend and database using Docker Compose.
 7. **Microservices Architecture**: Scalable design to handle various services independently.
+8. **Payment Integration**: Integrated **Stripe** for secure payments.
+9. **Admin Dashboard**: For managing products and orders.
+10. **Search and Filtering**: Users can filter products by name or category.
+11. **Error Page**: Custom error page for handling unexpected issues or routes.
 
 ---
 
@@ -133,12 +151,23 @@ To run the entire application locally using Docker:
 
 ## Future Improvements
 
-- **Authentication with Google**: Secure OAuth login after storing secrets in Google Cloud. (Done, inactive due to security reasons) 
 - **Microservices on Kubernetes**: Deploy the backend microservices using Kubernetes for better orchestration.
-- **Notification Service**: Implement a microservice to handle user notifications.
-- **Payment Integration**: Add Stripe or PayPal for secure payments.
-- **Admin Dashboard**: Product and order management.
 - **Testing**: Add unit and integration tests for both frontend and backend.
+
+---
+
+## Configuration Secrets
+
+To configure the application and get it running locally, you need to define the following secrets in a `.env` file in the root directory:
+
+```dotenv
+STRIPE_KEY_SECRET=your_stripe_key_here
+GOOGLE_CLIENT_ID=your_google_client_id_here
+GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+SPRING_MAIL_PASSWORD=your_spring_mail_password_here
+```
+
+Make sure you replace `your_stripe_key_here`, `your_google_client_id_here`, `your_google_client_secret_here`, and `your_spring_mail_password_here` with the actual credentials.
 
 ---
 
@@ -156,4 +185,3 @@ This project is licensed under the MIT License.
 ---
 
 Thank you for visiting the project! 🎉
-
