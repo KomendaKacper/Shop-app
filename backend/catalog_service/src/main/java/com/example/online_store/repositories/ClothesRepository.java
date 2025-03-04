@@ -11,6 +11,6 @@ import java.util.List;
 public interface ClothesRepository extends JpaRepository<Clothes, Long> {
     boolean existsByName(String name);
     List<Clothes> findByCategory(String category);
-    List<Clothes> findByNameIn(List<String> names);
+    List<Clothes> findByNameContaining(String name);
     Page<Clothes> findAll(Pageable pageable);
 }

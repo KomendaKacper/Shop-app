@@ -43,7 +43,6 @@ public class ClothesController {
         return ResponseEntity.ok(clothesPage);
     }
 
-
     @GetMapping("/products/{id}")
     public ResponseEntity<Clothes> getClothesById(@PathVariable Long id) {
         Optional<Clothes> clothes = clothesService.getClothesById(id);
@@ -73,9 +72,15 @@ public class ClothesController {
         }
     }
 
-    @PostMapping("/filter-by-names")
-    public ResponseEntity<List<Clothes>> filterByNames(@RequestBody List<String> names) {
-        List<Clothes> clothes = clothesService.findByNames(names);
+    @GetMapping("/filter-by-names/{name}")
+    public ResponseEntity<List<Clothes>> filterByNames(@PathVariable String name) {
+        List<Clothes> clothes = clothesService.findByName(name);
+        return new ResponseEntity<>(clothes, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter-by-category/{category}")
+    public ResponseEntity<List<Clothes>> filterByCategories(@PathVariable String category) {
+        List<Clothes> clothes = clothesService.findByCategory(category);
         return new ResponseEntity<>(clothes, HttpStatus.OK);
     }
 
