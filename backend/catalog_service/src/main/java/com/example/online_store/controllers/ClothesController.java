@@ -4,7 +4,8 @@ import com.example.online_store.entity.Clothes;
 
 import com.example.online_store.services.ClothesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,14 @@ public class ClothesController {
     }
 
     @GetMapping("/products")
-    public List<Clothes> getAllClothes(){
-        return clothesService.getAllClothes();
+    public ResponseEntity<Page<Clothes>> getAllClothes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Clothes> clothesPage = clothesService.getAllClothes(pageRequest);
+        return ResponseEntity.ok(clothesPage);
     }
+
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Clothes> getClothesById(@PathVariable Long id) {

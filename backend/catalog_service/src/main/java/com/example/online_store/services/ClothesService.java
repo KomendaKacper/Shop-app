@@ -4,6 +4,8 @@ import com.example.online_store.entity.Clothes;
 import com.example.online_store.repositories.ClothesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +26,8 @@ public class ClothesService {
         this.clothesRepository = clothesRepository;
     }
 
-    public List<Clothes> getAllClothes(){
-        return clothesRepository.findAll();
+    public Page<Clothes> getAllClothes(Pageable pageable){
+        return clothesRepository.findAll(pageable);
     }
 
     public Optional<Clothes> getClothesById(Long id){
