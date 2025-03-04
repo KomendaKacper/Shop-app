@@ -17,20 +17,12 @@ export default function Checkout() {
   console.log(cartTotal);
 
   const notify = () => {
-    toast.dismiss();
+
     console.log("Toast shown");
-    toast.success("Successfully added to cart!", {
+    toast.warning("You must be logged in!", {
       position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-      theme: "light",
-      transition: Slide,
+      autoClose: 5000,
     });
-    toast.dismiss();
   };
   
 
@@ -138,7 +130,6 @@ export default function Checkout() {
           </div>
         </div>
       </form>
-      <ToastContainer autoClose={5000} />
 
     </Modal>
   );
