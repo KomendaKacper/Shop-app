@@ -3,7 +3,6 @@ package com.example.auth_service.security;
 import com.example.auth_service.config.OAuth2LoginSuccessHandler;
 import com.example.auth_service.jwt.AuthEntryPointJwt;
 import com.example.auth_service.jwt.AuthTokenFilter;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +28,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.cors(withDefaults())
+        http
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/**"))
+                        .ignoringRequestMatchers("/**"))  // CSRF wyłączone globalnie
                 .authorizeHttpRequests((requests) ->
                         requests
                                 .requestMatchers("/**").permitAll()
@@ -41,6 +40,7 @@ public class SecurityConfig {
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults());
+
         return http.build();
     }
 
@@ -53,15 +53,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-    // @Configuration
-    // public class EnvConfig {
-    //     static {
-    //         Dotenv dotenv = Dotenv.configure().directory("../backend").load();
-    //         System.setProperty("GOOGLE_CLIENT_ID", dotenv.get("GOOGLE_CLIENT_ID"));
-    //         System.setProperty("GOOGLE_CLIENT_SECRET", dotenv.get("GOOGLE_CLIENT_SECRET"));
-    //         System.setProperty("SPRING_MAIL_PASSWORD", dotenv.get("SPRING_MAIL_PASSWORD"));
-    //     }
-    // }
-
 }

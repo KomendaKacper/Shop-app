@@ -17,8 +17,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-
-@CrossOrigin("http://localhost:5173/")
 @RequestMapping("/api/catalog")
 @RestController
 public class ClothesController {
