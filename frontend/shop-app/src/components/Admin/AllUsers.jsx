@@ -23,7 +23,6 @@ export default function AllUsers() {
           throw new error(`Failed to fetch users ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
         setUsers(data);
       } catch (error) {
         setError(error);

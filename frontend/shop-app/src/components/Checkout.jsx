@@ -46,7 +46,6 @@ export default function Checkout() {
       return;
     } else {
       e.preventDefault();
-      console.log("Purchase", cartTotal);
       navigate("/payment", { state: { totalPrice: cartTotal } });
     }
   }
