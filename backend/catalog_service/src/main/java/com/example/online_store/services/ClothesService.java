@@ -47,10 +47,6 @@ public class ClothesService {
         }
     }
 
-    public List<Clothes> filterByCategory(String category){
-        return clothesRepository.findByCategory(category);
-    }
-
     public byte[] getImage(String filePath) throws IOException {
         Path path = Path.of(filePath);
         if (Files.exists(path)) {
@@ -60,9 +56,9 @@ public class ClothesService {
         }
     }
 
-    public List<Clothes> findByNames(List<String> names) {
-        return clothesRepository.findByNameIn(names);
+    public List<Clothes> findByName(String name) {
+        return clothesRepository.findByNameContaining(name);
     }
-
+    public List<Clothes> findByCategory(String category) { return clothesRepository.findByCategory(category);}
 
 }
