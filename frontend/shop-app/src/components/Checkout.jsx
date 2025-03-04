@@ -4,14 +4,20 @@ import Input from "./UI/Input";
 import UserProgressContext from "../store/UserProgressContext.jsx";
 import { useNavigate } from "react-router-dom";
 import CartContext from "../store/CartContext.jsx";
+import AuthContext from "../store/AuthContext.jsx";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const userProgressCtx = useContext(UserProgressContext);
+  const authCtx = useContext(AuthContext);
 
   const cartContext = useContext(CartContext);
   const cartTotal = cartContext.totalPrice;
   console.log(cartTotal);
+
+  const notify = () =>
+    toast.error("You have to be logged in to finalize your purchase!");
 
   function handleClose() {
     userProgressCtx.hideCheckout();
@@ -34,9 +40,15 @@ export default function Checkout() {
   };
 
   function handlePurchase(e) {
-    e.preventDefault();
-    console.log("Purchase", cartTotal);
-    navigate("/payment", {state: {totalPrice: cartTotal}});
+    if (!authCtx.isUserLoggedIn) {
+      e.preventDefault();
+      notify();
+      return;
+    } else {
+      e.preventDefault();
+      console.log("Purchase", cartTotal);
+      navigate("/payment", { state: { totalPrice: cartTotal } });
+    }
   }
 
   return (
@@ -49,6 +61,7 @@ export default function Checkout() {
           <Input
             label="Name"
             id="name"
+            name="name"
             type="text"
             value={formData.name}
             onChange={handleInputChange}
@@ -56,6 +69,7 @@ export default function Checkout() {
           <Input
             label="Email"
             id="email"
+            name="email"
             type="email"
             value={formData.email}
             onChange={handleInputChange}
@@ -63,21 +77,24 @@ export default function Checkout() {
           <Input
             label="Street"
             id="street"
+            name="street"
             type="text"
             value={formData.street}
             onChange={handleInputChange}
           />
-          <div className="flex justify-start g-4">
+          <div className="flex justify-start gap-4">
             <Input
               label="Postal Code"
               id="postalCode"
               type="text"
+              name="postalCode"
               value={formData.postalCode}
               onChange={handleInputChange}
             />
             <Input
               label="City"
               id="city"
+              name="city"
               type="text"
               value={formData.city}
               onChange={handleInputChange}
@@ -103,6 +120,7 @@ export default function Checkout() {
               >
                 Submit purchase
               </button>
+              <ToastContainer />
             </p>
           </div>
         </div>
