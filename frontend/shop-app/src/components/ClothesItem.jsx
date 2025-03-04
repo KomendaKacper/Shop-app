@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import CartContex from "../store/CartContext";
 import "./ImageFlip.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ClothesItem({ product }) {
   const backendUrl = "http://localhost:8765/catalog-service/api/catalog/";
@@ -9,18 +10,19 @@ export default function ClothesItem({ product }) {
 
   const [isFlipped, setIsFilipped] = useState(false);
 
+  const notify = () =>
+    toast.success("Successfully added to cart!");
+
   const handleMouseEnter = () => {
     setIsFilipped(true);
-    console.log("entered");
   };
   const handleMouseLeave = () => {
     setIsFilipped(false);
-    console.log("left");
   };
 
   function addToCartHandler() {
     cartCtx.addItem(product);
-    console.log(product);
+    notify();
   }
 
   return (
@@ -60,6 +62,7 @@ export default function ClothesItem({ product }) {
           >
             Add to Cart
           </button>
+          <ToastContainer />
         </p>
       </article>
     </li>

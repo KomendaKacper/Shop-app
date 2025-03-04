@@ -14,12 +14,10 @@ export default function Cart() {
   );
   function handleCloseCart(){
     userProgressCtx.hideCart();
-    console.log('Cart closed');
   }
 
   function handleGoToCheckout(){
     userProgressCtx.showCheckout();
-    console.log('Go to checkout');
   }
 
   return (
