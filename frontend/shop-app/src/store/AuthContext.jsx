@@ -11,36 +11,22 @@ const AuthContext = createContext({
 });
 
 export function AuthContextProvider({ children }) {
-  const [token, setToken] = useState(null); 
-  const [roles, setRoles] = useState([]); 
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [roles, setRoles] = useState(() => {
+    const storedRoles = localStorage.getItem("roles");
+    return storedRoles ? JSON.parse(storedRoles) : [];
+  });
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(localStorage.getItem("isUserLoggedIn") === "true");
+
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    console.log("Stored token from localStorage:", storedToken);
-    let storedRoles = [];
-  
-    try {
-      const storedRolesString = localStorage.getItem("roles");
-      if (storedRolesString) {
-        storedRoles = JSON.parse(storedRolesString);
-      }
-    } catch (error) {
-      console.error("Error parsing roles from localStorage", error);
-    }
-  
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  
-    if (storedRoles.length > 0) {
-      setRoles(storedRoles);
-    }
-  }, []);
+    console.log("AuthContext Initialized - Token:", token);
+    console.log("Roles:", roles);
+    console.log("isUserLoggedIn:", isUserLoggedIn);
+  }, [token, roles, isUserLoggedIn]);
 
   const login = (newToken, newRoles) => {
-
     if (!newToken) {
       console.error("Attempting to login without token!");
       return;
@@ -48,6 +34,7 @@ export function AuthContextProvider({ children }) {
 
     localStorage.setItem("token", newToken);
     localStorage.setItem("roles", JSON.stringify(newRoles));
+    localStorage.setItem("isUserLoggedIn", "true"); 
 
     setToken(newToken);
     setRoles(newRoles);
@@ -58,28 +45,34 @@ export function AuthContextProvider({ children }) {
     } else {
       navigate("/home");
     }
-
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("roles");
+    localStorage.removeItem("isUserLoggedIn");
+
     setToken(null);
     setRoles([]);
     setIsUserLoggedIn(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("roles");
+
     navigate("/home");
   };
 
-  const contextValue = {
-    token,
-    roles,
-    isLoggedIn: !!token,
-    isUserLoggedIn,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        token,
+        roles,
+        isLoggedIn: !!token,
+        isUserLoggedIn,
+        login,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthContext;

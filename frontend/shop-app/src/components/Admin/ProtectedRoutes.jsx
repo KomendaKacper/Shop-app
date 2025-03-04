@@ -6,6 +6,7 @@ const ProtectedRoutes = ({ children, requiredRole }) => {
   const authCtx = useContext(AuthContext);
 
   if (!authCtx.isUserLoggedIn) {
+    console.log("Is user logged in?", authCtx.isUserLoggedIn);
     return <Navigate to="/login" replace />;
   }
 
