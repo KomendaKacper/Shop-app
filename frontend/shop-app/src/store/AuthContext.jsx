@@ -39,12 +39,6 @@ export function AuthContextProvider({ children }) {
     setToken(newToken);
     setRoles(newRoles);
     setIsUserLoggedIn(true);
-
-    if (newRoles.includes("ROLE_ADMIN")) {
-      navigate("/dashboard");
-    } else {
-      navigate("/noaccess");
-    }
   };
 
   const logout = () => {

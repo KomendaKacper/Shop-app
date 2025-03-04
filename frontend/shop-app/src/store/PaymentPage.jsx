@@ -95,6 +95,7 @@ export const PaymentPage = () => {
         }
 
         setHttpError(false);
+        cartCtx.items = [];
         navigate("/");
       } else {
         setHttpError("Payment failed. Please try again.");
