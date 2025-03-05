@@ -18,7 +18,6 @@ function App() {
             <Clothes />
             <Cart />
             <Checkout />
-            <PaymentPage />
         </UserProgressContextProvider>
       </AuthContextProvider>
     </>
