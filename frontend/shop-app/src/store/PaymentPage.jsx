@@ -26,15 +26,15 @@ export const PaymentPage = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-    const notify = () => {
-      console.log("Toast shown");
-      toast.success("Payment successful!", {
+  const notify = () => {
+    console.log("Toast shown");
+    toast.success("Payment successful!", {
       position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        theme: "light",
-      });
-    };
+      autoClose: 5000,
+      hideProgressBar: false,
+      theme: "light",
+    });
+  };
 
   async function checkout() {
     if (!stripe || !elements) {
@@ -57,6 +57,32 @@ export const PaymentPage = () => {
     };
 
     try {
+      const response = await fetch(
+        `http://localhost:8765/auth-service/api/csrf-token`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error fetching CSRF token");
+      }
+
+      const data = await response.json();
+      if (!data.csrfToken) {
+        throw new Error("CSRF token not found");
+      }
+
+    } catch (error) {
+      setHttpError(error.message);
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
       const stripeResponse = await fetch(
         `http://localhost:8765/orders-service/api/payment/secure/payment-intent`,
         {
@@ -64,6 +90,7 @@ export const PaymentPage = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            "X-CSRF-Token": data.csrfToken,
           },
           body: JSON.stringify(paymentInfo),
         }
@@ -104,18 +131,17 @@ export const PaymentPage = () => {
           console.error("Błąd PUT:", errorResponse);
           throw new Error("PUT nie przeszedł!");
         }
-        
+
         setHttpError(false);
 
         if (result.paymentIntent?.status === "succeeded") {
           console.log("Payment succeeded, calling notify()");
           notify();
-          cartCtx.items = []; 
+          cartCtx.items = [];
           setTimeout(() => {
             navigate("/");
           }, 6000); // Opóźnienie 2 sekundy
         }
-
       } else {
         setHttpError("Payment failed. Please try again.");
       }
@@ -128,7 +154,7 @@ export const PaymentPage = () => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="m-6">
         <BackArrow />
       </div>
