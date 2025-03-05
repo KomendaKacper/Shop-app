@@ -4,7 +4,6 @@ import ImagePicker from "../ImagePicker";
 
 
 export default function AddProduct() {
-  console.log('Welcome to AddProduct.jsx');
 
   const [formData, setFormData] = useState({
     name: "string",
