@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { useNavigate, useLocation } from "react-router-dom";
 import CartContext from "./CartContext";
@@ -28,7 +28,7 @@ export const PaymentPage = () => {
 
   const notify = () => {
     console.log("Toast shown");
-    toast.success("Payment successful!", {
+    toast.success("Payment successful! Redirecting...", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -36,53 +36,71 @@ export const PaymentPage = () => {
     });
   };
 
+  useEffect(() => {
+    async function fetchCsrfToken() {
+      try {
+        const token = localStorage.getItem("token"); // Pobierz JWT
+        if (!token) {
+          console.error("Brak tokenu JWT w localStorage");
+          return;
+        }
+  
+        const response = await fetch(`http://localhost:8765/auth-service/api/csrf-token`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include", // Pozwól na przesyłanie ciasteczek
+        });
+  
+        if (!response.ok) {
+          throw new Error("Błąd pobierania CSRF tokenu");
+        }
+  
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem("csrfToken", data.token);
+        }
+      } catch (error) {
+        console.error("CSRF Fetch Error:", error);
+      }
+    }
+  
+    fetchCsrfToken();
+  }, []);
+  
+
   async function checkout() {
     if (!stripe || !elements) {
       setHttpError("Stripe is not loaded");
       return;
     }
-
+  
     const token = localStorage.getItem("token");
+    const csrfToken = localStorage.getItem("csrfToken");
+  
     if (!token) {
       setHttpError("Authorization error. You must be logged in.");
       return;
     }
-
+  
+    if (!csrfToken) {
+      setHttpError("CSRF token missing. Try refreshing the page.");
+      return;
+    }
+  
     setIsProcessing(true);
-
+  
     const paymentInfo = {
       amount: totalPrice * 100,
       currency,
       email,
     };
-
+  
     try {
-      const response = await fetch(
-        `http://localhost:8765/auth-service/api/csrf-token`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Error fetching CSRF token");
-      }
-
-      const data = await response.json();
-      if (!data.csrfToken) {
-        throw new Error("CSRF token not found");
-      }
-
-    } catch (error) {
-      setHttpError(error.message);
-      setIsProcessing(false);
-      return;
-    }
-
-    try {
+      console.log("Bearer Token: ", token);
+      console.log("X-XSRF-TOKEN: ", csrfToken);
+  
       const stripeResponse = await fetch(
         `http://localhost:8765/orders-service/api/payment/secure/payment-intent`,
         {
@@ -90,16 +108,17 @@ export const PaymentPage = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
-            "X-CSRF-Token": data.csrfToken,
+            "X-XSRF-TOKEN": csrfToken,
           },
+          credentials: "include",
           body: JSON.stringify(paymentInfo),
         }
       );
-
+  
       if (!stripeResponse.ok) {
         throw new Error("Error processing payment");
       }
-
+  
       const stripeResponseJson = await stripeResponse.json();
       const result = await stripe.confirmCardPayment(
         stripeResponseJson.client_secret,
@@ -110,38 +129,16 @@ export const PaymentPage = () => {
           },
         }
       );
-
+  
       if (result.error) {
         setHttpError(result.error.message);
       } else if (result.paymentIntent?.status === "succeeded") {
-        const response = await fetch(
-          `http://localhost:8765/orders-service/api/payment/secure/payment-complete`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(cartItems),
-          }
-        );
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          console.error("Błąd PUT:", errorResponse);
-          throw new Error("PUT nie przeszedł!");
-        }
-
         setHttpError(false);
-
-        if (result.paymentIntent?.status === "succeeded") {
-          console.log("Payment succeeded, calling notify()");
-          notify();
-          cartCtx.items = [];
-          setTimeout(() => {
-            navigate("/");
-          }, 6000); // Opóźnienie 2 sekundy
-        }
+        notify();
+        cartCtx.removeAllItems();
+        setTimeout(() => {
+          navigate("/");
+        }, 6000);
       } else {
         setHttpError("Payment failed. Please try again.");
       }
@@ -151,7 +148,7 @@ export const PaymentPage = () => {
       setIsProcessing(false);
     }
   }
-
+    
   return (
     <>
       <ToastContainer />

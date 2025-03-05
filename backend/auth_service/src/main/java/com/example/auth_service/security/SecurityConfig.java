@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -29,13 +30,17 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/**"))
-                .authorizeHttpRequests((requests) ->
-                        requests
-                                .requestMatchers("/oauth2/**").permitAll()
-                                .requestMatchers("/public/**").permitAll()
-                                .anyRequest().authenticated())
+                .csrf(csrf -> {
+                    XorCsrfTokenRequestAttributeHandler delegate = new XorCsrfTokenRequestAttributeHandler();
+                    delegate.setCsrfRequestAttributeName(null); // Allows raw tokens
+
+                    // Configure CSRF token repository and CSRF token handling
+                    csrf
+                            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // Token w ciasteczkach
+                            .csrfTokenRequestHandler(delegate::handle) // Token będzie dostępny w raw form
+                            .ignoringRequestMatchers("/api/auth/public/**", "/api/csrf-token"); // Ignorowanie endpointów
+
+                })
                 .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)

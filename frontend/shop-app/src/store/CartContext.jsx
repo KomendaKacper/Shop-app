@@ -4,6 +4,7 @@ const CartContext = createContext({
   items: [],
   addItem: (item) => {},
   removeItem: (id) => {},
+  removeAllItems: () => {},
   totalPrice: 0,
 });
 
@@ -44,30 +45,40 @@ function cartReducer(state, action) {
     }
     return { ...state, items: updatedItems };
   }
+
+  if (action.type === "REMOVE_ALL_ITEMS") {
+    return { ...state, items: [] };
+  }
+
   return state;
 }
 
 export function CartContextProvider({ children }) {
-  const [cart, dispatchCartAction ] = useReducer(cartReducer, { items: [] });
-  const [totalPrice, setTotalPrice] = useState()
+  const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] });
+  const [totalPrice, setTotalPrice] = useState();
 
   useEffect(() => {
     const newTotal = cart.items.reduce((total, item) => total + item.quantity * item.price, 0);
     setTotalPrice(Number(newTotal.toFixed(2)));
   }, [cart.items]);
-  
 
-  function addItem(item){
-    dispatchCartAction({type: 'ADD_ITEM', item});
-  }
-  function removeItem(id){
-    dispatchCartAction({type: 'REMOVE_ITEM', id});
+  function addItem(item) {
+    dispatchCartAction({ type: "ADD_ITEM", item });
   }
 
-  const cartContext={
+  function removeItem(id) {
+    dispatchCartAction({ type: "REMOVE_ITEM", id });
+  }
+
+  function removeAllItems() {
+    dispatchCartAction({ type: "REMOVE_ALL_ITEMS" });
+  }
+
+  const cartContext = {
     items: cart.items,
     addItem,
     removeItem,
+    removeAllItems,
     totalPrice,
   };
 
