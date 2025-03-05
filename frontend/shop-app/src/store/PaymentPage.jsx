@@ -106,6 +106,7 @@ export const PaymentPage = () => {
         }
         
         setHttpError(false);
+
         if (result.paymentIntent?.status === "succeeded") {
           console.log("Payment succeeded, calling notify()");
           notify();

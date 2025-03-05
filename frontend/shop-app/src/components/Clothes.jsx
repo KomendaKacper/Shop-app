@@ -20,7 +20,7 @@ export default function Clothes() {
     "Hat",
     "Shirt",
     "Jacket",
-    "UnderShirt",
+    "Undershirt",
     "Trousers",
     "Accessory",
     "Jeans",
