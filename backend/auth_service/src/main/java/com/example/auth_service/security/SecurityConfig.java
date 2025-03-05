@@ -30,10 +30,11 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/**"))  // CSRF wyłączone globalnie
+                        .ignoringRequestMatchers("/**"))
                 .authorizeHttpRequests((requests) ->
                         requests
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/oauth2/**").permitAll()
+                                .requestMatchers("/public/**").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
