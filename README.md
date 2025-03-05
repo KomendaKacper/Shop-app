@@ -170,7 +170,17 @@ SPRING_MAIL_PASSWORD=your_spring_mail_password_here
 Make sure you replace `your_stripe_key_here`, `your_google_client_id_here`, `your_google_client_secret_here`, and `your_spring_mail_password_here` with the actual credentials.
 
 ---
+## Testing Payment Functionality  
 
+To test the payment system, use the following Stripe test card:  
+
+- **Card Number:** `4242 4242 4242 4242`  
+- **Expiration Date:** `07/26`  
+- **CVC Code:** `559`  
+
+Using these details will simulate a successful transaction in test mode.
+
+---
 ## Contributors
 
 - **Backend**: [KomendaKacper](https://github.com/KomendaKacper)
