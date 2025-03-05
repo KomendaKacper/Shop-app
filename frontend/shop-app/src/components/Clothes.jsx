@@ -11,7 +11,6 @@ export default function Clothes() {
   const [filteredClothes, setFilteredClothes] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const navigate = useNavigate();
 
 
   const categories = [
@@ -47,6 +46,8 @@ export default function Clothes() {
 
         if (enteredFilter || selectedCategory) {
           setFilteredClothes(data);
+          setTotalPages(data.totalPages);
+          setCurrentPage(0);
         } else {
           setLoadedClothes(data.content);
           setTotalPages(data.totalPages);
@@ -119,10 +120,9 @@ export default function Clothes() {
           <span className="mx-4 text-lg font-bold mt-2">
             {currentPage + 1} / {totalPages}
           </span>
-
           <button
             className="mx-2 px-4 py-2 bg-gray-300 rounded-lg disabled:opacity-50"
-            disabled={currentPage + 1 >= totalPages}
+            disabled={currentPage + 1 >= totalPages || totalPages === 0}
             onClick={() => setCurrentPage((prev) => prev + 1)}
           >
             Next
