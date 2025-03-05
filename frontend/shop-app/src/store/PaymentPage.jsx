@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import CartContext from "./CartContext";
 import "../index.css";
 import BackArrow from "../components/UI/BackArrow";
+import { ToastContainer, toast } from "react-toastify";
 
 // 4242 4242 4242 4242
 // 07/26
@@ -24,6 +25,16 @@ export const PaymentPage = () => {
 
   const stripe = useStripe();
   const elements = useElements();
+
+    const notify = () => {
+      console.log("Toast shown");
+      toast.success("Payment successful!", {
+      position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        theme: "light",
+      });
+    };
 
   async function checkout() {
     if (!stripe || !elements) {
@@ -93,9 +104,17 @@ export const PaymentPage = () => {
           console.error("Błąd PUT:", errorResponse);
           throw new Error("PUT nie przeszedł!");
         }
-
+        
         setHttpError(false);
-        navigate("/");
+        if (result.paymentIntent?.status === "succeeded") {
+          console.log("Payment succeeded, calling notify()");
+          notify();
+          cartCtx.items = []; 
+          setTimeout(() => {
+            navigate("/");
+          }, 6000); // Opóźnienie 2 sekundy
+        }
+
       } else {
         setHttpError("Payment failed. Please try again.");
       }
@@ -108,6 +127,7 @@ export const PaymentPage = () => {
 
   return (
     <>
+    <ToastContainer />
       <div className="m-6">
         <BackArrow />
       </div>

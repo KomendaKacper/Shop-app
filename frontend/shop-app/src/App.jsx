@@ -13,11 +13,12 @@ function App() {
     <>
       <AuthContextProvider>
         <UserProgressContextProvider>
+            <ToastContainer />
             <Navbar />
             <Clothes />
             <Cart />
             <Checkout />
-            <ToastContainer />
+            <PaymentPage />
         </UserProgressContextProvider>
       </AuthContextProvider>
     </>
