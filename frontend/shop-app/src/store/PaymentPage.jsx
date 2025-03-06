@@ -133,6 +133,26 @@ export const PaymentPage = () => {
       if (result.error) {
         setHttpError(result.error.message);
       } else if (result.paymentIntent?.status === "succeeded") {
+        console.log(csrfToken);
+        const response = await fetch(
+          `http://localhost:8765/orders-service/api/payment/secure/payment-complete`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+              "X-XSRF-TOKEN": csrfToken,
+            },
+            credentials: "include",
+            body: JSON.stringify(cartItems),
+          }
+        );
+
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          console.error("Błąd PUT:", errorResponse);
+          throw new Error("PUT nie przeszedł!");
+        }
         setHttpError(false);
         notify();
         cartCtx.removeAllItems();

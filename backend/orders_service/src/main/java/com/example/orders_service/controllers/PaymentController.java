@@ -42,6 +42,7 @@ public class PaymentController {
 
         String username = ExtractJWT.payloadJWTExtraction(token, "{\"sub\"");
         UserDTO user = authClient.findByUsername(username);
+        System.out.println(user);
         if (user == null) {
             throw new Exception("User not found");
         }

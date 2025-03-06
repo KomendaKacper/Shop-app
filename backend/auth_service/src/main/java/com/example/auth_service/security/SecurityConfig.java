@@ -34,11 +34,10 @@ public class SecurityConfig {
                     XorCsrfTokenRequestAttributeHandler delegate = new XorCsrfTokenRequestAttributeHandler();
                     delegate.setCsrfRequestAttributeName(null); // Allows raw tokens
 
-                    // Configure CSRF token repository and CSRF token handling
                     csrf
-                            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // Token w ciasteczkach
-                            .csrfTokenRequestHandler(delegate::handle) // Token będzie dostępny w raw form
-                            .ignoringRequestMatchers("/api/auth/public/**", "/api/csrf-token"); // Ignorowanie endpointów
+                            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                            .csrfTokenRequestHandler(delegate::handle)
+                            .ignoringRequestMatchers("/api/auth/public/**", "/api/csrf-token");
 
                 })
                 .oauth2Login(oauth2 -> oauth2.successHandler(oAuth2LoginSuccessHandler))
