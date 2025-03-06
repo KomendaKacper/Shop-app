@@ -11,7 +11,7 @@ export default function Clothes() {
   const [filteredClothes, setFilteredClothes] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const navigate = useNavigate();
 
   const categories = [
     "Sweatshirt",
@@ -30,9 +30,9 @@ export default function Clothes() {
       try {
         let url;
         if (enteredFilter) {
-          url = `http://localhost:8765/catalog-service/api/catalog/filter-by-names/${enteredFilter}`;
+          url = `http://localhost:8765/catalog-service/api/catalog/filter-by-names/${enteredFilter}?page=${currentPage}&size=6`;
         } else if (selectedCategory) {
-          url = `http://localhost:8765/catalog-service/api/catalog/filter-by-category/${selectedCategory.trim()}`;
+          url = `http://localhost:8765/catalog-service/api/catalog/filter-by-category/${selectedCategory.trim()}`; //lista
         } else {
           url = `http://localhost:8765/catalog-service/api/catalog/products?page=${currentPage}&size=6`;
         }
@@ -43,14 +43,19 @@ export default function Clothes() {
         }
 
         const data = await response.json();
+        console.log(data);
 
         if (enteredFilter || selectedCategory) {
-          setFilteredClothes(data);
-          setTotalPages(data.totalPages);
-          setCurrentPage(0);
+          const paginatedData = data.slice(
+            currentPage * 6,
+            (currentPage + 1) * 6
+          );
+          setFilteredClothes(paginatedData);
+          setTotalPages(data.length > 0 ? Math.ceil(data.length / 6) : 1);
+          console.log(totalPages);
         } else {
           setLoadedClothes(data.content);
-          setTotalPages(data.totalPages);
+          setTotalPages(data.totalPages || 1);
         }
       } catch (error) {
         console.error("Error fetching clothes:", error);
@@ -66,7 +71,11 @@ export default function Clothes() {
         <div className="flex-1">
           <ReactSearchBox
             placeholder="Search..."
-            onChange={(value) => setEnteredFilter(value)}
+            value={enteredFilter} 
+            onChange={(value) => {
+              setEnteredFilter(value);
+              setCurrentPage(0); 
+            }}
           />
         </div>
 
@@ -86,6 +95,8 @@ export default function Clothes() {
                   className="p-2 hover:bg-amber-800 cursor-pointer"
                   onClick={() => {
                     setSelectedCategory(category);
+                    setCurrentPage(0);
+                    setEnteredFilter("");
                     setShowCategories(false);
                   }}
                 >
