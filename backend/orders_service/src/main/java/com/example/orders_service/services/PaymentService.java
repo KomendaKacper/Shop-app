@@ -33,9 +33,6 @@ public class PaymentService {
         Stripe.apiKey = secretKey;
         System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }
-    @Value("${catalog.service.url}")
-    private String catalogServiceUrl;
-
     @Value("${Stripe.apiKey}")
     private String secretKey;
 
@@ -62,46 +59,26 @@ public class PaymentService {
     }
 
     public ResponseEntity<String> stripePayment(String userEmail, List<ItemDTO> cart) {
-        final Payment payment = paymentRepository.findByUserEmail(userEmail);
-
-        if (payment == null) {
-            Payment newPayment = new Payment();
-            newPayment.setUserEmail(userEmail);
-            newPayment.setAmount(0.00);
-            paymentRepository.save(newPayment);
-
-            return savePaymentWithItems(newPayment, cart);
-        }
-
-        return savePaymentWithItems(payment, cart);
-    }
-
-    private ResponseEntity<String> savePaymentWithItems(Payment payment, List<ItemDTO> cart) {
-        log.info("Rozpoczęcie przetwarzania płatności dla: {}", payment.getUserEmail());
-        log.info("Lista zakupionych przedmiotów: {}", cart);
+        log.info("Rozpoczęcie nowej płatności dla użytkownika: {}", userEmail);
 
         final double totalAmount = cart.stream()
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
-        payment.setAmount(totalAmount);
-        log.info("Całkowita kwota płatności: {}", totalAmount);
+        log.info("Całkowita kwota nowej płatności: {}", totalAmount);
 
-        List<PurchasedItem> purchasedItems = payment.getPurchasedItems();
-        if (purchasedItems == null) {
-            purchasedItems = new ArrayList<>();
-            payment.setPurchasedItems(purchasedItems);
-        } else {
-            purchasedItems.clear();
-        }
+        Payment newPayment = new Payment();
+        newPayment.setUserEmail(userEmail);
+        newPayment.setAmount(totalAmount);
 
+        List<PurchasedItem> purchasedItems = new ArrayList<>();
         for (ItemDTO item : cart) {
-            purchasedItems.add(new PurchasedItem(payment, item.getName(), item.getPrice(), item.getQuantity()));
+            purchasedItems.add(new PurchasedItem(newPayment, item.getName(), item.getPrice(), item.getQuantity()));
         }
+        newPayment.setPurchasedItems(purchasedItems);
 
-        paymentRepository.save(payment);
-        log.info("Płatność zapisana w bazie dla: {}", payment.getUserEmail());
+        paymentRepository.save(newPayment);
+        log.info("Nowa płatność zapisana w bazie dla użytkownika: {}", userEmail);
 
-        return new ResponseEntity<>("Payment record created/updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Payment record created successfully", HttpStatus.OK);
     }
-
 }
