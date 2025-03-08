@@ -16,5 +16,5 @@ public interface UserService {
     void resetPassword(String token, String newPassword);
     void generatePasswordResetToken(String username);
     User registerUser(User user);
-
+    public String deleteUserById(Long userId);
 }

@@ -39,7 +39,7 @@ export const PaymentPage = () => {
   useEffect(() => {
     async function fetchCsrfToken() {
       try {
-        const token = localStorage.getItem("token"); // Pobierz JWT
+        const token = localStorage.getItem("token"); 
         if (!token) {
           console.error("Brak tokenu JWT w localStorage");
           return;
@@ -50,7 +50,7 @@ export const PaymentPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          credentials: "include", // Pozwól na przesyłanie ciasteczek
+          credentials: "include",
         });
   
         if (!response.ok) {
@@ -98,9 +98,6 @@ export const PaymentPage = () => {
     };
   
     try {
-      console.log("Bearer Token: ", token);
-      console.log("X-XSRF-TOKEN: ", csrfToken);
-  
       const stripeResponse = await fetch(
         `http://localhost:8765/orders-service/api/payment/secure/payment-intent`,
         {

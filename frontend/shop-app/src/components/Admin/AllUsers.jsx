@@ -34,28 +34,74 @@ export default function AllUsers() {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    async function fetchCsrfToken() {
+      try {
+        const token = localStorage.getItem("token"); 
+        if (!token) {
+          console.error("Brak tokenu JWT w localStorage");
+          return;
+        }
+  
+        const response = await fetch(`http://localhost:8765/auth-service/api/csrf-token`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+        });
+  
+        if (!response.ok) {
+          throw new Error("Error while fetching CSRF token");
+        }
+  
+        const data = await response.json();
+        if (data.token) {
+          localStorage.setItem("csrfToken", data.token);
+        }
+      } catch (error) {
+        console.error("CSRF Fetch Error:", error);
+      }
+    }
+  
+    fetchCsrfToken();
+  }, []);
+  
+
+
   const deleteUser = async (userId) => {
     try {
+      // Pobranie tokenu JWT z localStorage
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Brak tokenu JWT w localStorage");
+      }
+  
+      // Wysłanie zapytania DELETE z odpowiednimi nagłówkami
       const response = await fetch(
         `http://localhost:8765/auth-service/api/admin/delete-user/${userId}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Dodanie tokenu do nagłówka
+            "X-XSRF-TOKEN": localStorage.getItem("csrfToken"), // CSRF token
           },
+          credentials: "include", // Zapewnienie, że ciasteczka są dołączane
         }
       );
-
+  
       if (!response.ok) {
-        throw new error(`Failed to delete user ${response.status}`);
+        throw new Error(`Failed to delete user ${response.status}`);
       }
-
+  
+      // Usunięcie użytkownika z listy po pomyślnym usunięciu z serwera
       setUsers(users.filter((user) => user.userId !== userId));
     } catch (err) {
       setError(err);
     }
   };
-
+  
   return (
     <>
       <Navbar />
@@ -100,8 +146,8 @@ export default function AllUsers() {
                       <p>
                         <i>To delete user click:</i>{" "}
                       </p>
-                      <button onClick={() => deleteUser(user.userId)}>
-                        <MdDelete className="w-6 h-6 mt-1 hover:text-red-600" />
+                      <button className="bg-[rgb(148,131,77)]" onClick={() => deleteUser(user.userId)}>
+                        <MdDelete className="w-6 h-6 mt-1 hover:text-red-600 bg-[rgb(148,131,77)]" />
                       </button>
                     </div>
                   </div>

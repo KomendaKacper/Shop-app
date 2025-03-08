@@ -8,7 +8,9 @@ import com.example.orders_service.requestmodels.PaymentInfoRequest;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
-import jakarta.annotation.PostConstruct;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -26,13 +29,13 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-
     @PostConstruct
     public void init() {
         System.out.println("Stripe API Key (from @Value): " + secretKey);
         Stripe.apiKey = secretKey;
         System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }
+
     @Value("${Stripe.apiKey}")
     private String secretKey;
 
@@ -45,7 +48,8 @@ public class PaymentService {
         System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }
 
-
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackCreatePaymentIntent")
+    @Retry(name = "paymentService")
     public PaymentIntent createPaymentIntent(PaymentInfoRequest paymentInfoRequest) throws StripeException {
         List<String> paymentMethodTypes = new ArrayList<>();
         paymentMethodTypes.add("card");
@@ -58,6 +62,13 @@ public class PaymentService {
         return PaymentIntent.create(params);
     }
 
+    public PaymentIntent fallbackCreatePaymentIntent(PaymentInfoRequest paymentInfoRequest, Throwable t) {
+        log.error("Circuit breaker activated for createPaymentIntent. Returning null.", t);
+        return null;
+    }
+
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackStripePayment")
+    @RateLimiter(name = "paymentService")
     public ResponseEntity<String> stripePayment(String userEmail, List<ItemDTO> cart) {
         log.info("Rozpoczęcie nowej płatności dla użytkownika: {}", userEmail);
 
@@ -77,8 +88,13 @@ public class PaymentService {
         newPayment.setPurchasedItems(purchasedItems);
 
         paymentRepository.save(newPayment);
-        log.info("Nowa płatność zapisana w bazie dla użytkownika: {}", userEmail);
+        log.info("New payment saved in db: {}", userEmail);
 
         return new ResponseEntity<>("Payment record created successfully", HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> fallbackStripePayment(String userEmail, List<ItemDTO> cart, Throwable t) {
+        log.error("Circuit breaker activated for stripePayment. Returning error response.", t);
+        return new ResponseEntity<>("Service temporarily unavailable. Please try again later.", HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
