@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
     private Long userId;
-    private String username;  // TERAZ PASUJE DO JSON-a
+    private String username;
     private String email;
 }
