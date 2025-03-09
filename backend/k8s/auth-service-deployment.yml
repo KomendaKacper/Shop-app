@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: komendakacper123/auth-service
+          env:
+            - name: SPRING_CLOUD_VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: VAULT_TOKEN
+            - name: DB_HOST
+              value: "mysql-service"  # Upewnij się, że masz taką usługę
+            - name: DB_PORT
+              value: "3307"  # Upewnij się, że port jest poprawny
+            - name: DB_USER
+              value: "springstudent"
+            - name: DB_PASSWORD
+              value: "springstudent"
+            - name: DB_NAME
+              value: "clothing_store"
+          ports:
+            - containerPort: 8100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth-service
+  ports:
+    - protocol: TCP
+      port: 8100
+      targetPort: 8100

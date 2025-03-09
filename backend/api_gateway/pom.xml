@@ -43,11 +43,6 @@
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
 
-		<!-- Eureka Discovery Client -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
 
 		<!-- SpringDoc OpenAPI WebFlux UI (Swagger UI) -->
 		<dependency>

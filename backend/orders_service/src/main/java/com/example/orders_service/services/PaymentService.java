@@ -29,13 +29,6 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    @PostConstruct
-    public void init() {
-        System.out.println("Stripe API Key (from @Value): " + secretKey);
-        Stripe.apiKey = secretKey;
-        System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
-    }
-
     @Value("${Stripe.apiKey}")
     private String secretKey;
 
@@ -44,6 +37,11 @@ public class PaymentService {
     @Autowired
     public PaymentService(PaymentRepository paymentRepository) {
         this.paymentRepository = paymentRepository;
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Stripe API Key (from @Value): " + secretKey);
         Stripe.apiKey = secretKey;
         System.out.println("Stripe.apiKey (Stripe object): " + Stripe.apiKey);
     }

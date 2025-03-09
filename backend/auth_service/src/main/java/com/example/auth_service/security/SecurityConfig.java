@@ -3,7 +3,6 @@ package com.example.auth_service.security;
 import com.example.auth_service.config.OAuth2LoginSuccessHandler;
 import com.example.auth_service.jwt.AuthEntryPointJwt;
 import com.example.auth_service.jwt.AuthTokenFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

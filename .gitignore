@@ -6,3 +6,4 @@
 /node_modules
 /backend/secrets.properties
 .env
+/backend/k8s/secrets.yml

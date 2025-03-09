@@ -13,7 +13,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>catalog_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>online-store</name>
+	<name>catalog_service</name>
 	<description>Online store for products with full shopping cart functionality</description>
 
 	<properties>
@@ -101,10 +101,6 @@
 			<artifactId>opentelemetry-exporter-zipkin</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>3.0.0</version>
@@ -117,6 +113,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>catalog_service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
